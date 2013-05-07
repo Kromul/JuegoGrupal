@@ -20,7 +20,7 @@ import javax.vecmath.Vector3f;
  *
  * @author Alex
  */
-public class ComportamientoMostrar extends Behavior implements Runnable {
+public class ComportamientoMostrar extends Behavior {
 
     //Constantes
     private final float VEL_ANDAR_V = 0.005f;
@@ -45,20 +45,31 @@ public class ComportamientoMostrar extends Behavior implements Runnable {
 
     @Override
     public void processStimulus(Enumeration criteria) {
+        actualizarPersonaje();
+
+        wakeupOn(framewake);
+    }
+
+    private void actualizarPersonaje() {
         Transform3D t3dNuevaPersonaje = new Transform3D();
 
-        if (personaje.getDireccion() != null) {
-            if (personaje.getDireccion().equals("derecha")) {
+        if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
+            personaje.correr();
+            if (personaje.getDerecha()) {
                 t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_H));
             }
-            if (personaje.getDireccion().equals("izquierda")) {
+            if (personaje.getIzquierda()) {
                 t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_H));
             }
-            if (personaje.getDireccion().equals("adelante")) {
+            if (personaje.getAdelante()) {
                 t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_V));
             }
-            if (personaje.getDireccion().equals("atras")) {
+            if (personaje.getAtras()) {
                 t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_V));
+            }
+        } else {
+            if (personaje.getAndando()) {
+                personaje.correr();
             }
         }
         Transform3D t3dPersonaje = new Transform3D();
@@ -67,20 +78,5 @@ public class ComportamientoMostrar extends Behavior implements Runnable {
         TG_personaje.setTransform(t3dPersonaje);
         Vector3d nuevaPosicion = new Vector3d();
         t3dNuevaPersonaje.get(nuevaPosicion);
-        wakeupOn(framewake);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                Thread.sleep(10);
-                if (personaje.adelante || personaje.atras || personaje.izquierda || personaje.derecha) {
-                    personaje.andar();
-                    Thread.sleep(300);
-                }
-            } catch (InterruptedException ex) {
-            }
-        }
     }
 }

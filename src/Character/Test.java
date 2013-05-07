@@ -65,16 +65,11 @@ public final class Test extends JFrame {
         return objRoot;
     }
 
-    public void run() {
-        mostrar.run();
-    }
-
     public static void main(String[] args) {
         Test test = new Test();
         test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         test.setTitle("Test");
         test.setSize(800, 600);
         test.setVisible(true);
-        test.run();
     }
 }

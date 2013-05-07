@@ -21,8 +21,8 @@ import net.sf.nwn.loader.NWNLoader;
  * @author Alex
  */
 public class Personaje {
-    //Constantes
 
+    //Constantes
     private final String RUTA = ("file://localhost/" + System.getProperty("user.dir") + "/");
     private final String MDL = "iron_golem.mdl";
     private final String ACCION_CORRER = "iron_golem:crun";
@@ -33,8 +33,8 @@ public class Personaje {
     private AnimationBehavior animacion;
     private TransformGroup tgPersonaje;
     private Point3f posicion;
-    public boolean adelante, atras, izquierda, derecha;
-    private boolean andando = false;
+    private boolean adelante, atras, izquierda, derecha;
+    private boolean andando;
 
     public Personaje() {
         try {
@@ -51,7 +51,7 @@ public class Personaje {
             tgPersonaje.addChild(bgPersonaje);
             //Inicialización de los atributos
             posicion = new Point3f(0, 0, 0);
-            adelante = atras = izquierda = derecha = false;
+            adelante = atras = izquierda = derecha = andando = false;
         } catch (MalformedURLException ex) {
         } catch (FileNotFoundException ex) {
         } catch (IncorrectFormatException ex) {
@@ -79,24 +79,34 @@ public class Personaje {
         derecha = estado;
     }
 
-    public String getDireccion() {
-        String direccion = null;
-        if (adelante) {
-            direccion = "adelante";
-        } else if (atras) {
-            direccion = "atras";
-        } else if (izquierda) {
-            direccion = "izquierda";
-        } else if (derecha) {
-            direccion = "derecha";
-        }
-        return direccion;
+    public boolean getAdelante() {
+        return adelante;
     }
 
-    public void andar() {
+    public boolean getAtras() {
+        return atras;
+    }
+
+    public boolean getIzquierda() {
+        return izquierda;
+    }
+
+    public boolean getDerecha() {
+        return derecha;
+    }
+
+    public boolean getAndando() {
+        return andando;
+    }
+
+    public void correr() {
         if (!andando) {
             animacion.playAnimation(ACCION_CORRER, true);
             andando = true;
+        }
+        if (andando && !adelante && !atras && !izquierda && !derecha) {
+            animacion.playAnimation(ACCION_CORRER, false);
+            andando = false;
         }
     }
 }
