@@ -35,18 +35,9 @@ public final class Test extends JFrame {
         universo = new SimpleUniverse(zonaDibujo);
         universo.getViewingPlatform().setNominalViewingTransform();
         getContentPane().add(zonaDibujo);
-        
-        
         BranchGroup escena = crearEscena();
-        
-        
-        escena.compile();
-        
-        
+        escena.compile();        
         universo.addBranchGraph(escena);
-        
-        
-        
 
         //Añadimos movimiento con ratón
         OrbitBehavior B = new OrbitBehavior(zonaDibujo);
@@ -70,17 +61,12 @@ public final class Test extends JFrame {
 
         //Añadimos el mostrar
         objRoot.addChild(mostrar);
-        
-        
-        
 
         return objRoot;
     }
 
     public void run() {
         mostrar.run();
-        
-        
     }
 
     public static void main(String[] args) {
