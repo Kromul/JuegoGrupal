@@ -44,6 +44,8 @@ public class MiLibreria3D {
 	public static enum tipoTransformacion{enX, enY, enZ};
         public static enum tipoFigura{rectangulo, circulo, cilindro, objetoOBJ};
         
+        
+        
 	static tipoTransformacion transformacion;
 	
 	public static Color3f rojo = new Color3f(1.0f, 0.0f, 0.0f);
