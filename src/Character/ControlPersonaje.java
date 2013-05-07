@@ -20,6 +20,7 @@ import javax.vecmath.Point3d;
  * @author Alex
  */
 public class ControlPersonaje extends javax.media.j3d.Behavior {
+
     Personaje personaje;
     TransformGroup tgPersonaje;
     WakeupOnAWTEvent presionada = new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED);
