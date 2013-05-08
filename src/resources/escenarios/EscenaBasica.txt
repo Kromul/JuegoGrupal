@@ -1,0 +1,12 @@
+muro	muro	muro	muro	muro	muro	final	|								
+suelo	suelo	suelo	suelo	suelo	muro	final	|								
+muro	muro	muro	muro	suelo	muro	final	|								
+muro	muro	muro	muro	suelo	muro	final	|								
+suelo	suelo	muro	muro	suelo	muro	suelo	suelo	suelo	muro	suelo	suelo	suelo	muro	final	|
+muro	suelo	muro	muro	suelo	muro	muro	muro	muro	muro	suelo	muro	muro	muro	final	|
+muro	suelo	muro	muro	suelo	suelo	suelo	suelo	suelo	suelo	suelo	muro	muro	muro	final	|
+muro	suelo	suelo	suelo	suelo	muro	suelo	muro	suelo	muro	suelo	muro	muro	muro	final	|
+muro	suelo	muro	muro	suelo	muro	suelo	suelo	suelo	muro	suelo	muro	muro	muro	final	|
+muro	suelo	muro	muro	suelo	muro	muro	muro	muro	muro	suelo	suelo	suelo	muro	final	|
+muro	suelo	muro	muro	suelo	muro	muro	muro	muro	muro	muro	muro	muro	muro	final	|
+muro	suelo	suelo	suelo	suelo	muro	muro	muro	muro	muro	muro	muro	muro	muro	final	|
