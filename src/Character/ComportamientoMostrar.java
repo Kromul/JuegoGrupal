@@ -52,7 +52,13 @@ public class ComportamientoMostrar extends Behavior {
         Transform3D t3dNuevaPersonaje = new Transform3D();
 
         if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
-            personaje.correr();
+            
+            (new Thread() {
+                public void run() {
+                    personaje.correr();
+                }
+            }).start();
+            
             if (personaje.getDerecha()) {
                 t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_H));
             }
