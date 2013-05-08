@@ -65,7 +65,7 @@ public class MiLibreria3D {
 	 * @param tipoRot
 	 * @return
 	 */
-	public static TransformGroup rotar(Node objeto,float grados, tipoTransformacion tipoRot){
+	public static TransformGroup rotarEstatico(Node objeto,float grados, tipoTransformacion tipoRot){
 		/* Transformacion a realizar sobre la esfera*/
 		Transform3D rotacion = new Transform3D();
 		//Datos de rotaci�n en X,Y,Z //Math.PI/4.0d); 
@@ -87,10 +87,10 @@ public class MiLibreria3D {
 	 * @param rotZ
 	 * @return
 	 */
-	public static TransformGroup trasladar(Node objeto, Vector3f posicion){
+	public static TransformGroup trasladarEstatico(Node objeto, Vector3f posicion){
 		/* Transformacion a realizar sobre la esfera*/
 		Transform3D traslacion = new Transform3D();
-		//Datos de rotaci�n en X,Y,Z //Math.PI/4.0d); 
+		//Datos de rotacion en X,Y,Z //Math.PI/4.0d); 
 		traslacion.set(posicion);
 		// Se asocia al objeto la transformacion
 		TransformGroup objetoRotado = new TransformGroup(traslacion);
@@ -98,25 +98,7 @@ public class MiLibreria3D {
 
 		return objetoRotado;
 	}
-	
-	
-	/**
-	 * Establece un comportamiendo para el objeto girando con respecto al eje y
-	 * @param objTrans
-	 * @return
-	 */
-	public static RotationInterpolator rotacion(TransformGroup objTrans) {
-		// Crear un objeto Behavior que realizar� las operaciones
-		// deseadas en la transformada especificada y a�adirlo a la escena
-		Transform3D yAxis = new Transform3D();
-		Alpha rotationAlpha = new Alpha(2, 3000);// si se pone -1 en el primer argumento gira indefinidamente
-		RotationInterpolator rotator = new RotationInterpolator(rotationAlpha, objTrans, yAxis, 0.0f, (float) Math.PI * 2.0f);
-		BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
-		rotator.setSchedulingBounds(bounds);
-		
-		return rotator;
-	}
-        
+	        
         /**
 	 * Dado un BranchGroup bajo el cual se encuentran los objetos que se quieren escalar
 	 * este metodo devolvera un BranchGroup el cual cubre a al BG inicial y, evidentemente,
@@ -124,7 +106,7 @@ public class MiLibreria3D {
 	 * @param objRoot
 	 * @return
 	 */
-	public static BranchGroup escalar(BranchGroup objRoot, float escala) {
+	public static BranchGroup escalarEstatico(BranchGroup objRoot, float escala) {
 		BranchGroup escaladoBG = new BranchGroup();
 		Transform3D escalado = new Transform3D();
 		escalado.setScale(escala);
@@ -151,7 +133,7 @@ public class MiLibreria3D {
             if(tipoFigura.equals(tipoFigura.rectangulo)){
                 // Objeto sobre el que se realiza la transformacion
 		Box cubo = new Box(ancho, alto, largo, apariencia);
-                TransformGroup traslacion = MiLibreria3D.trasladar(cubo, posInicial);
+                TransformGroup traslacion = MiLibreria3D.trasladarEstatico(cubo, posInicial);
                 rootBG.addChild(traslacion);
             }else{
                 throw new Exception("Error al crear la figura");

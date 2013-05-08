@@ -97,10 +97,10 @@ public class BigMind extends JFrame {
         }
 
         
-        String rutaFondo = System.getProperty("user.dir") + "//" + "src//resources//textura_cielo.jpg";
+        String rutaFondo =  "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/textura_cielo.jpg";
         String rutaSonido = "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/magic_bells.wav";
         MiLibreria3D.setBackground(rootBG, rutaFondo, this, 1);
-//        MiLibreria3D.addSound(universo, rootBG, rutaSonido);
+        MiLibreria3D.addSound(universo, rootBG, rutaSonido);
         MiLibreria3D.CrearSuelo(rootBG);
         MiLibreria3D.CrearEjesCoordenada(rootBG);
 
