@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Point3f;
 import net.sf.nwn.loader.AnimationBehavior;
@@ -28,6 +29,7 @@ public class Personaje {
     private final String ACCION_CORRER = "iron_golem:crun";
     private final String ACCION_ANDAR = "iron_golem:cwalk";
     private final String ACCION_ATACAR = "iron_golem:cstab";
+    private final String ACCION_PAUSA = "iron_golem:cpause";
     //Atributos
     private Scene personaje;
     private AnimationBehavior animacion;
@@ -48,6 +50,8 @@ public class Personaje {
             tgPersonaje = new TransformGroup();
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+            rotar("x", -90);
+            escalar((float) 0.3);
             tgPersonaje.addChild(bgPersonaje);
             //Inicialización de los atributos
             posicion = new Point3f(0, 0, 0);
@@ -59,6 +63,7 @@ public class Personaje {
         }
     }
 
+    //Get y set
     public TransformGroup getTG() {
         return tgPersonaje;
     }
@@ -99,14 +104,59 @@ public class Personaje {
         return andando;
     }
 
+    //Transformaciones
+    public void rotar(String eje, float angulo) {
+        Transform3D nueva = rotarObjeto(eje, angulo);
+        Transform3D actual = new Transform3D();
+        tgPersonaje.getTransform(actual);
+        actual.mul(nueva);
+        tgPersonaje.setTransform(actual);
+    }
+
+    public void escalar(float escala) {
+        Transform3D nueva = escalarObjeto(escala);
+        Transform3D actual = new Transform3D();
+        tgPersonaje.getTransform(actual);
+        actual.mul(nueva);
+        tgPersonaje.setTransform(actual);
+    }
+
+    //Animaciones
     public void correr() {
         if (!andando) {
             animacion.playAnimation(ACCION_CORRER, true);
             andando = true;
         }
         if (andando && !adelante && !atras && !izquierda && !derecha) {
-            animacion.playAnimation(ACCION_CORRER, false);
+            animacion.playDefaultAnimation();
             andando = false;
         }
+    }
+
+    //Métodos de librería
+    private Transform3D rotarObjeto(String eje, float angulo) {
+        angulo = convertir_A_Radianes(angulo);
+        Transform3D rotarObj = new Transform3D();
+        if (eje.toLowerCase().equals("x")) {
+            rotarObj.rotX(angulo);
+        } else if (eje.toLowerCase().equals("y")) {
+            rotarObj.rotY(angulo);
+        } else if (eje.toLowerCase().equals("z")) {
+            rotarObj.rotZ(angulo);
+        }
+        return rotarObj;
+    }
+
+    private float convertir_A_Radianes(float angulo) {
+        float resultado = angulo;
+        resultado = resultado / 180;
+        resultado = (float) (resultado * Math.PI);
+        return resultado;
+    }
+
+    private Transform3D escalarObjeto(float escala) {
+        Transform3D escalarObj = new Transform3D();
+        escalarObj.setScale(escala);
+        return escalarObj;
     }
 }
