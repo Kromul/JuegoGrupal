@@ -34,13 +34,19 @@ public class Personaje {
     private Scene personaje;
     private AnimationBehavior animacion;
     private TransformGroup tgPersonaje;
-    private Point3f posicion;
+    private Point3f posicionActual;
+    private Point3f puntoDireccion;
     private Direccion direccion;
     private boolean adelante, atras, izquierda, derecha, adder, adizq, atder, atizq;
     private boolean andando;
 
     public Personaje() {
         try {
+            //Inicialización de los atributos
+            posicionActual = new Point3f(0f, 0f, 0f);
+            direccion = Direccion.adelante;
+            actualizarDireccion();
+            adelante = atras = izquierda = derecha = andando = adder = adizq = atder = atizq = false;
             //Inicialización del personaje
             NWNLoader nwn2 = new NWNLoader();
             nwn2.enableModelCache(true);
@@ -54,10 +60,7 @@ public class Personaje {
             rotar(TtipoTrans.enX, -90);
             escalar(ESCALA);
             tgPersonaje.addChild(bgPersonaje);
-            //Inicialización de los atributos
-            posicion = new Point3f(0, 0, 0);
-            direccion = Direccion.adelante;
-            adelante = atras = izquierda = derecha = andando = adder = adizq = atder = atizq = false;
+
         } catch (MalformedURLException ex) {
         } catch (FileNotFoundException ex) {
         } catch (IncorrectFormatException ex) {
@@ -139,7 +142,11 @@ public class Personaje {
     }
 
     public Point3f getPosicion() {
-        return posicion;
+        return posicionActual;
+    }
+
+    public Point3f getPuntoDireccion() {
+        return puntoDireccion;
     }
 
     //Transformaciones
@@ -310,14 +317,15 @@ public class Personaje {
         actual.mul(nueva);
         tgPersonaje.setTransform(actual);
         if (direccion.equals(Direccion.adelante)) {
-            posicion.setZ(posicion.getZ() - distancia.getY() * ESCALA);
+            posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
         } else if (direccion.equals(Direccion.atras)) {
-            posicion.setZ(posicion.getZ() + distancia.getY() * ESCALA);
+            posicionActual.setZ(posicionActual.getZ() + distancia.getY() * ESCALA);
         } else if (direccion.equals(Direccion.izquierda)) {
-            posicion.setX(posicion.getX() - distancia.getY() * ESCALA);
+            posicionActual.setX(posicionActual.getX() - distancia.getY() * ESCALA);
         } else if (direccion.equals(Direccion.derecha)) {
-            posicion.setX(posicion.getX() + distancia.getY() * ESCALA);
+            posicionActual.setX(posicionActual.getX() + distancia.getY() * ESCALA);
         }
+        actualizarDireccion();
     }
 
     //Animaciones
@@ -339,5 +347,30 @@ public class Personaje {
         tgPersonaje.getTransform(actual);
         actual.mul(nueva);
         tgPersonaje.setTransform(actual);
+    }
+
+    private void actualizarDireccion() {
+        puntoDireccion = new Point3f(posicionActual.getX(), posicionActual.getY(), posicionActual.getZ());
+        if (direccion.equals(Direccion.adelante)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() - 1);
+        } else if (direccion.equals(Direccion.atras)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() + 1);
+        } else if (direccion.equals(Direccion.izquierda)) {
+            puntoDireccion.setX(puntoDireccion.getX() - 1);
+        } else if (direccion.equals(Direccion.derecha)) {
+            puntoDireccion.setX(puntoDireccion.getX() + 1);
+        } else if (direccion.equals(Direccion.adDer)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() - 1);
+            puntoDireccion.setX(puntoDireccion.getX() + 1);
+        } else if (direccion.equals(Direccion.adIzq)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() - 1);
+            puntoDireccion.setX(puntoDireccion.getX() - 1);
+        } else if (direccion.equals(Direccion.atDer)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() + 1);
+            puntoDireccion.setX(puntoDireccion.getX() + 1);
+        } else if (direccion.equals(Direccion.atIzq)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() - 1);
+            puntoDireccion.setX(puntoDireccion.getX() - 1);
+        }
     }
 }
