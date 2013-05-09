@@ -58,7 +58,7 @@ public class MiLibreria3D {
     
 
     public static enum Direccion {
-        adelante, atras, izquierda, derecha
+        adelante, atras, izquierda, derecha, adDer, adIzq, atDer, atIzq
     };
 
     /**

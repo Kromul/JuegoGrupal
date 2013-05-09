@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Character;
 
 import java.awt.AWTEvent;
@@ -16,7 +12,6 @@ import javax.media.j3d.WakeupOr;
 import javax.vecmath.Point3d;
 
 /**
- *
  * @author Alex
  */
 public class ControlPersonaje extends javax.media.j3d.Behavior {
@@ -57,7 +52,8 @@ public class ControlPersonaje extends javax.media.j3d.Behavior {
                                 personaje.setAdelante(true);
                             } else if (ek.getKeyChar() == 's') {
                                 personaje.setAtras(true);
-                            } else if (ek.getKeyChar() == 'a') {
+                            }
+                            if (ek.getKeyChar() == 'a') {
                                 personaje.setIzquierda(true);
                             } else if (ek.getKeyChar() == 'd') {
                                 personaje.setDerecha(true);
