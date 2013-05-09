@@ -98,9 +98,9 @@ public class BigMind extends JFrame {
             rootBG.addChild(escenaBG);
 
             // Situamos el elefante
-            String elefanteURL = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/elephav.obj";
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.15f, 0.0f),
-                    MiLibreria3D.tipoFigura.objetoOBJ, 0.25f, null, null,
+            String elefanteURL = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/otros/dragon.obj";
+            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 3.0f, 0.0f),
+                    MiLibreria3D.tipoFigura.objetoOBJ, 1.0f, null, null,
                     null,
                     elefanteURL));
 
