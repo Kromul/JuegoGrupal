@@ -63,7 +63,9 @@ public class ComportamientoMostrar extends Behavior {
                 nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
                 personaje.rotarAtras();
             }
-            System.out.println("Posicion: " + personaje.getPosicion());
+            System.out.println("Posicion actual: " + personaje.getPosicion());
+            System.out.println("Apuntando: " + personaje.getPuntoDireccion());
+            System.out.println();
             (new Thread() {
                 public void run() {
                     personaje.correr();
