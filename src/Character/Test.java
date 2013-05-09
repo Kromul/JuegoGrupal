@@ -65,7 +65,7 @@ public final class Test extends JFrame {
 
         return objRoot;
     }
-
+    
     private BranchGroup crearEjes() {
         BranchGroup grupoEjes = new BranchGroup();
 

@@ -60,6 +60,7 @@ public class MiLibreria3D {
         adelante, atras, izquierda, derecha, adDer, adIzq, atDer, atIzq
     };
 
+    
     /**
      * *******************
      * Metodos de Pedro ******************
