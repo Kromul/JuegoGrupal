@@ -42,22 +42,14 @@ public final class Test extends JFrame {
         universo.addBranchGraph(escena);
 
         //Añadimos movimiento con ratón 
-        // - Alex este trozo de codigo es un metodo de
-        // la libreria que se llama anadirMovimientoCamara.
-        OrbitBehavior B = new OrbitBehavior(zonaDibujo);
-        B.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0));
-        universo.getViewingPlatform().setViewPlatformBehavior(B);
+        MiLibreria3D.addMovimientoCamara(universo, zonaDibujo);
     }
 
     private BranchGroup crearEscena() {
         BranchGroup objRoot = new BranchGroup();
         //Añadimos la luz direccional 
-        // - Alex este metodo tambien esta en la libreria y se llama
-        // getDefaultIlumination
-        DirectionalLight LuzDireccional = new DirectionalLight(new Color3f(1f, 1f, 1f), new Vector3f(1f, 0f, -1f));
-        BoundingSphere limites2 = new BoundingSphere(new Point3d(-5, 0, 5), 100.0);
-        LuzDireccional.setInfluencingBounds(limites2);
-        objRoot.addChild(LuzDireccional);
+        DirectionalLight luzDireccional = MiLibreria3D.getDefaultIlumination();
+        objRoot.addChild(luzDireccional);
 
         //Añadimos el personaje
         objRoot.addChild(personaje.getTG());
@@ -74,7 +66,6 @@ public final class Test extends JFrame {
         return objRoot;
     }
 
-    // Alex este metodo tambien existe en la libreria, tiene el mismo nombre
     private BranchGroup crearEjes() {
         BranchGroup grupoEjes = new BranchGroup();
 
