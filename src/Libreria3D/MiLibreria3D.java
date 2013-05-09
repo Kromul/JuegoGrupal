@@ -63,7 +63,8 @@ public class MiLibreria3D {
 
     /**
      * *******************
-     * Metodos de Pedro *******************
+     * Metodos de Pedro 
+     *******************
      */
     /**
      * Rota el objeto indicado en el eje X,Y,Z que se indica
@@ -390,8 +391,9 @@ public class MiLibreria3D {
         return LuzDireccional;
     }
 
-    /**
+    /******************
      * Metodos de Alex
+     * ****************
      */
     public static Transform3D rotarDinamico(tipoTransformacion tipoRot, float angulo) {
         angulo = (float) Math.toRadians(angulo);
