@@ -55,7 +55,7 @@ public class BigMind extends JFrame {
         MiLibreria3D.colocarCamara(universo, new Point3d(-20, 10, -20), new Point3d(5, 0, 5));
     }
 
-    BranchGroup crearEscena(){
+    BranchGroup crearEscena() {
         BranchGroup rootBG = new BranchGroup();
         BranchGroup escenaBG = new BranchGroup();
         BranchGroup elefanteBG = new BranchGroup();
@@ -96,38 +96,38 @@ public class BigMind extends JFrame {
                 }
             }
             rootBG.addChild(escenaBG);
-            
+
             // Situamos el elefante
             String elefanteURL = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/elephav.obj";
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.15f, 0.0f), 
-                    MiLibreria3D.tipoFigura.objetoOBJ, 0.25f, null, null, 
-                    null, 
+            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.15f, 0.0f),
+                    MiLibreria3D.tipoFigura.objetoOBJ, 0.25f, null, null,
+                    null,
                     elefanteURL));
-            
+
             String urlFuego = System.getProperty("user.dir") + "//" + "src//resources//textura_fuego.jpg";
             // Situamos una esfera
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f), 
-                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null, 
-                    MiLibreria3D.getTexture(urlFuego, this), 
+            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f),
+                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null,
+                    MiLibreria3D.getTexture(urlFuego, this),
                     null));
-            
+
             // Situamos un cilindro
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 1.5f, 0.0f), 
-                    MiLibreria3D.tipoFigura.cilindro, 0.25f, 0.25f, null, 
-                    MiLibreria3D.getTexture(urlFuego, this), 
+            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 1.5f, 0.0f),
+                    MiLibreria3D.tipoFigura.cilindro, 0.25f, 0.25f, null,
+                    MiLibreria3D.getTexture(urlFuego, this),
                     null));
-            
+
         } catch (Exception ex) {
             Logger.getLogger(BigMind.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Elementos por defecto de la escena
         String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/textura_cielo.jpg";
         String rutaSonido = "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/magic_bells.wav";
         MiLibreria3D.setBackground(rootBG, rutaFondo, this, 1);
         MiLibreria3D.addSound(universo, rootBG, rutaSonido);
-        MiLibreria3D.CrearSuelo(rootBG);
-        MiLibreria3D.CrearEjesCoordenada(rootBG);
+        rootBG.addChild(MiLibreria3D.CrearSuelo());
+        rootBG.addChild(MiLibreria3D.CrearEjesCoordenada());
         rootBG.addChild(MiLibreria3D.getDefaultIlumination());
 
         return rootBG;

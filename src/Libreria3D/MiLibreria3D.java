@@ -38,7 +38,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class MiLibreria3D {
 
-    public static enum tipoTransformacion {
+    public static enum TtipoTrans {
 
         enX, enY, enZ
     };
@@ -47,24 +47,22 @@ public class MiLibreria3D {
 
         rectangulo, esfera, cilindro, objetoOBJ
     };
-    static tipoTransformacion transformacion;
+    static TtipoTrans transformacion;
     public static Color3f rojo = new Color3f(1.0f, 0.0f, 0.0f);
     public static Color3f verde = new Color3f(0.0f, 1.0f, 0.0f);
     public static Color3f azul = new Color3f(0.0f, 0.0f, 1.0f);
     public static Color3f amarillo = new Color3f(1.0f, 1.0f, 0.0f);
     public static Color3f cian = new Color3f(0.0f, 1.0f, 1.0f);
     public static Color3f violeta = new Color3f(1.0f, 0.0f, 1.0f);
-    
-    
 
     public static enum Direccion {
+
         adelante, atras, izquierda, derecha, adDer, adIzq, atDer, atIzq
     };
 
     /**
      * *******************
-     * Metodos de Pedro 
-     *******************
+     * Metodos de Pedro ******************
      */
     /**
      * Rota el objeto indicado en el eje X,Y,Z que se indica
@@ -74,17 +72,17 @@ public class MiLibreria3D {
      * @param tipoRot
      * @return
      */
-    public static TransformGroup rotarEstatico(Node objeto, float grados, tipoTransformacion tipoRot) {
+    public static TransformGroup rotarEstatico(Node objeto, float grados, TtipoTrans tipoRot) {
         /* Transformacion a realizar sobre la esfera*/
         Transform3D rotacion = new Transform3D();
         //Datos de rotaci�n en X,Y,Z //Math.PI/4.0d); 
-        if (tipoRot.equals(tipoTransformacion.enX)) {
+        if (tipoRot.equals(TtipoTrans.enX)) {
             rotacion.rotX(Math.toRadians(grados));
         }
-        if (tipoRot.equals(tipoTransformacion.enY)) {
+        if (tipoRot.equals(TtipoTrans.enY)) {
             rotacion.rotY(Math.toRadians(grados));
         }
-        if (tipoRot.equals(tipoTransformacion.enZ)) {
+        if (tipoRot.equals(TtipoTrans.enZ)) {
             rotacion.rotZ(Math.toRadians(grados));
         }
         // Se asocia al objeto la transformacion
@@ -195,6 +193,7 @@ public class MiLibreria3D {
      * @param escala
      */
     public static void setBackground(BranchGroup rootBG, String url, Component context, int escala) {
+
         TextureLoader bgTexture = new TextureLoader(url, context);
         Background bg = new Background(bgTexture.getImage());
         BoundingSphere limites = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
@@ -270,7 +269,8 @@ public class MiLibreria3D {
      *
      * @param rootBG
      */
-    public static void CrearSuelo(BranchGroup rootBG) {
+    public static BranchGroup CrearSuelo() {
+        BranchGroup rootBG = new BranchGroup();
         int contadorTira[] = {3, 3, 3, 3};
         TriangleStripArray cuadrado = new TriangleStripArray(12, TriangleArray.COORDINATES | TriangleArray.COLOR_3, contadorTira);
         float limite = 100.0f;
@@ -313,6 +313,8 @@ public class MiLibreria3D {
         Shape3D forma = new Shape3D(cuadrado);
 
         rootBG.addChild(forma);
+
+        return rootBG;
     }
 
     /**
@@ -355,7 +357,8 @@ public class MiLibreria3D {
      *
      * @return
      */
-    public static void CrearEjesCoordenada(BranchGroup rootBG) {
+    public static BranchGroup CrearEjesCoordenada() {
+        BranchGroup rootBG = new BranchGroup();
         LineArray linea = new LineArray(6, TriangleArray.COORDINATES | TriangleArray.COLOR_3);
         float alcance = 100.0f;
         // Eje x
@@ -377,6 +380,8 @@ public class MiLibreria3D {
 
         Shape3D forma = new Shape3D(linea);
         rootBG.addChild(forma);
+
+        return rootBG;
     }
 
     /**
@@ -391,18 +396,18 @@ public class MiLibreria3D {
         return LuzDireccional;
     }
 
-    /******************
-     * Metodos de Alex
+    /**
      * ****************
+     * Metodos de Alex ****************
      */
-    public static Transform3D rotarDinamico(tipoTransformacion tipoRot, float angulo) {
+    public static Transform3D rotarDinamico(TtipoTrans tipoRot, float angulo) {
         angulo = (float) Math.toRadians(angulo);
         Transform3D rotarObj = new Transform3D();
-        if (tipoRot.equals(tipoTransformacion.enX)) {
+        if (tipoRot.equals(TtipoTrans.enX)) {
             rotarObj.rotX(angulo);
-        } else if (tipoRot.equals(tipoTransformacion.enY)) {
+        } else if (tipoRot.equals(TtipoTrans.enY)) {
             rotarObj.rotY(angulo);
-        } else if (tipoRot.equals(tipoTransformacion.enZ)) {
+        } else if (tipoRot.equals(TtipoTrans.enZ)) {
             rotarObj.rotZ(angulo);
         }
         return rotarObj;

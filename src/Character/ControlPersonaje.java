@@ -47,8 +47,7 @@ public class ControlPersonaje extends javax.media.j3d.Behavior {
                     if (events[n] instanceof KeyEvent) {
                         KeyEvent ek = (KeyEvent) events[n];
                         if (ek.getID() == KeyEvent.KEY_PRESSED) {
-                            if (ek.getKeyChar()
-                                    == 'w') {
+                            if (ek.getKeyChar() == 'w') {
                                 personaje.setAdelante(true);
                             } else if (ek.getKeyChar() == 's') {
                                 personaje.setAtras(true);
