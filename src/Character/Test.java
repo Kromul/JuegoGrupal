@@ -58,43 +58,11 @@ public final class Test extends JFrame {
         objRoot.addChild(mostrar);
 
         //Añadimos los ejes
-        objRoot.addChild(crearEjes());
+        objRoot.addChild(MiLibreria3D.CrearEjesCoordenada());
 
         return objRoot;
     }
     
-    private BranchGroup crearEjes() {
-        BranchGroup grupoEjes = new BranchGroup();
-
-        //Creamos los ejes
-        LineArray ejeX = new LineArray(2, LineArray.COORDINATES | LineArray.COLOR_3);
-        LineArray ejeY = new LineArray(2, LineArray.COORDINATES | LineArray.COLOR_3);
-        LineArray ejeZ = new LineArray(2, LineArray.COORDINATES | LineArray.COLOR_3);
-        ejeX.setCoordinate(0, new Point3f(-1.0f, 0.0f, 0.0f));
-        ejeX.setCoordinate(1, new Point3f(1.0f, 0.0f, 0.0f));
-        ejeY.setCoordinate(0, new Point3f(0.0f, -1.0f, 0.0f));
-        ejeY.setCoordinate(1, new Point3f(0.0f, 1.0f, 0.0f));
-        ejeZ.setCoordinate(0, new Point3f(0.0f, 0.0f, -1.0f));
-        ejeZ.setCoordinate(1, new Point3f(0.0f, 0.0f, 1.0f));
-
-        //Les damos color
-        Color3f rojo = new Color3f(1.0f, 0.0f, 0.0f);
-        Color3f verde = new Color3f(0.0f, 1.0f, 0.0f);
-        ejeX.setColor(0, rojo);
-        ejeX.setColor(1, verde);
-        ejeY.setColor(0, rojo);
-        ejeY.setColor(1, verde);
-        ejeZ.setColor(0, rojo);
-        ejeZ.setColor(1, verde);
-
-        //Los añadimos al BG
-        grupoEjes.addChild(new Shape3D(ejeX));
-        grupoEjes.addChild(new Shape3D(ejeY));
-        grupoEjes.addChild(new Shape3D(ejeZ));
-
-        return grupoEjes;
-    }
-
     public static void main(String[] args) {
         Test test = new Test();
         test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
