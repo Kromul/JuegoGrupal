@@ -20,7 +20,7 @@ public class ComportamientoMostrar extends Behavior {
 
     //Constantes
     private final float VEL_ANDAR = 0.005f;
-    private final float VEL_CORRER = 0.012f;
+    private final float VEL_CORRER = 0.02f;
     //Atributos
     Personaje personaje;
     TransformGroup TG_personaje;
@@ -46,9 +46,7 @@ public class ComportamientoMostrar extends Behavior {
 
     private void actualizarPersonaje() {
         Vector3f nuevaPosicion = new Vector3f(0f, 0f, 0f);
-
         if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
-
             if (personaje.getDerecha()) {
                 nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
                 personaje.rotarDerecha();
