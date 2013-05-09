@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Character;
 
+import Libreria3D.MiLibreria3D;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import javax.media.j3d.BoundingSphere;
@@ -12,17 +9,14 @@ import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.LineArray;
 import javax.media.j3d.Shape3D;
-import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
-import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 /**
- *
  * @author Alex
  */
 public final class Test extends JFrame {
@@ -41,7 +35,7 @@ public final class Test extends JFrame {
         Canvas3D zonaDibujo = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
         universo = new SimpleUniverse(zonaDibujo);
         TGcamara = universo.getViewingPlatform().getViewPlatformTransform();
-        colocarCamara(universo, new Point3d(0, 2, 5), new Point3d(0, 0, 0));
+        MiLibreria3D.colocarCamara(universo, new Point3d(0, 2, 5), new Point3d(0, 0, 0));
         getContentPane().add(zonaDibujo);
         BranchGroup escena = crearEscena();
         escena.compile();
@@ -108,21 +102,10 @@ public final class Test extends JFrame {
         return grupoEjes;
     }
 
-    private void colocarCamara(SimpleUniverse universo, Point3d posiciónCamara, Point3d objetivoCamara) {
-        Point3d posicionCamara = new Point3d(posiciónCamara.x + 0.001, posiciónCamara.y + 0.001d, posiciónCamara.z + 0.001);
-        Transform3D datosConfiguracionCamara = new Transform3D();
-        datosConfiguracionCamara.lookAt(posicionCamara, objetivoCamara, new Vector3d(0.001, 1.001, 0.001));
-        try {
-            datosConfiguracionCamara.invert();
-            TGcamara.setTransform(datosConfiguracionCamara);
-        } catch (Exception e) {
-        }
-    }
-
     public static void main(String[] args) {
         Test test = new Test();
         test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        test.setTitle("Test");
+        test.setTitle("Test Animación");
         test.setSize(800, 600);
         test.setVisible(true);
     }

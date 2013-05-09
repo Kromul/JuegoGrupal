@@ -1,9 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Character;
 
+import Libreria3D.MiLibreria3D;
+import Libreria3D.MiLibreria3D.Direccion;
+import Libreria3D.MiLibreria3D.tipoTransformacion;
 import com.sun.j3d.loaders.IncorrectFormatException;
 import com.sun.j3d.loaders.ParsingErrorException;
 import com.sun.j3d.loaders.Scene;
@@ -14,17 +13,17 @@ import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Point3f;
+import javax.vecmath.Vector3f;
 import net.sf.nwn.loader.AnimationBehavior;
 import net.sf.nwn.loader.NWNLoader;
 
 /**
- *
  * @author Alex
  */
 public class Personaje {
 
     //Constantes
-    private final String RUTA = ("file://localhost/" + System.getProperty("user.dir") + "/");
+    private final String RUTA = ("file://localhost/" + System.getProperty("user.dir") + "/src/resources/objetosMDL/");
     private final String MDL = "iron_golem.mdl";
     private final String ACCION_CORRER = "iron_golem:crun";
     private final String ACCION_ANDAR = "iron_golem:cwalk";
@@ -35,6 +34,7 @@ public class Personaje {
     private AnimationBehavior animacion;
     private TransformGroup tgPersonaje;
     private Point3f posicion;
+    private Direccion direccion;
     private boolean adelante, atras, izquierda, derecha;
     private boolean andando;
 
@@ -50,11 +50,12 @@ public class Personaje {
             tgPersonaje = new TransformGroup();
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            rotar("x", -90);
+            rotar(tipoTransformacion.enX, -90);
             escalar((float) 0.3);
             tgPersonaje.addChild(bgPersonaje);
             //Inicialización de los atributos
             posicion = new Point3f(0, 0, 0);
+            direccion = Direccion.adelante;
             adelante = atras = izquierda = derecha = andando = false;
         } catch (MalformedURLException ex) {
         } catch (FileNotFoundException ex) {
@@ -104,21 +105,78 @@ public class Personaje {
         return andando;
     }
 
+    public Point3f getPosicion() {
+        return posicion;
+    }
+
     //Transformaciones
-    public void rotar(String eje, float angulo) {
-        Transform3D nueva = rotarObjeto(eje, angulo);
+    public void rotarIzquierda() {
+        if (direccion.equals(Direccion.derecha)) {
+            rotar(tipoTransformacion.enZ, 180);
+        } else if (direccion.equals(Direccion.adelante)) {
+            rotar(tipoTransformacion.enZ, 90);
+        } else if (direccion.equals(Direccion.atras)) {
+            rotar(tipoTransformacion.enZ, -90);
+        }
+        direccion = Direccion.izquierda;
+    }
+
+    public void rotarDerecha() {
+        if (direccion.equals(Direccion.izquierda)) {
+            rotar(tipoTransformacion.enZ, 180);
+        } else if (direccion.equals(Direccion.adelante)) {
+            rotar(tipoTransformacion.enZ, -90);
+        } else if (direccion.equals(Direccion.atras)) {
+            rotar(tipoTransformacion.enZ, 90);
+        }
+        direccion = Direccion.derecha;
+    }
+
+    public void rotarAdelante() {
+        if (direccion.equals(Direccion.derecha)) {
+            rotar(tipoTransformacion.enZ, 90);
+        } else if (direccion.equals(Direccion.izquierda)) {
+            rotar(tipoTransformacion.enZ, -90);
+        } else if (direccion.equals(Direccion.atras)) {
+            rotar(tipoTransformacion.enZ, 180);
+        }
+        direccion = Direccion.adelante;
+    }
+
+    public void rotarAtras() {
+        if (direccion.equals(Direccion.derecha)) {
+            rotar(tipoTransformacion.enZ, -90);
+        } else if (direccion.equals(Direccion.izquierda)) {
+            rotar(tipoTransformacion.enZ, 90);
+        } else if (direccion.equals(Direccion.adelante)) {
+            rotar(tipoTransformacion.enZ, 180);
+        }
+        direccion = Direccion.atras;
+    }
+
+    public void escalar(float escala) {
+        Transform3D nueva = MiLibreria3D.escalarDinamico(escala);
         Transform3D actual = new Transform3D();
         tgPersonaje.getTransform(actual);
         actual.mul(nueva);
         tgPersonaje.setTransform(actual);
     }
 
-    public void escalar(float escala) {
-        Transform3D nueva = escalarObjeto(escala);
+    public void desplazar(Vector3f distancia) {
+        Transform3D nueva = MiLibreria3D.trasladarDinamico(distancia);
         Transform3D actual = new Transform3D();
         tgPersonaje.getTransform(actual);
         actual.mul(nueva);
         tgPersonaje.setTransform(actual);
+        if (direccion.equals(Direccion.adelante)) {
+            posicion.setZ(posicion.getZ() - distancia.getY());
+        } else if (direccion.equals(Direccion.atras)) {
+            posicion.setZ(posicion.getZ() + distancia.getY());
+        } else if (direccion.equals(Direccion.izquierda)) {
+            posicion.setX(posicion.getX() - distancia.getY());
+        } else if (direccion.equals(Direccion.derecha)) {
+            posicion.setX(posicion.getX() + distancia.getY());
+        }
     }
 
     //Animaciones
@@ -133,30 +191,12 @@ public class Personaje {
         }
     }
 
-    //Métodos de librería
-    private Transform3D rotarObjeto(String eje, float angulo) {
-        angulo = convertir_A_Radianes(angulo);
-        Transform3D rotarObj = new Transform3D();
-        if (eje.toLowerCase().equals("x")) {
-            rotarObj.rotX(angulo);
-        } else if (eje.toLowerCase().equals("y")) {
-            rotarObj.rotY(angulo);
-        } else if (eje.toLowerCase().equals("z")) {
-            rotarObj.rotZ(angulo);
-        }
-        return rotarObj;
-    }
-
-    private float convertir_A_Radianes(float angulo) {
-        float resultado = angulo;
-        resultado = resultado / 180;
-        resultado = (float) (resultado * Math.PI);
-        return resultado;
-    }
-
-    private Transform3D escalarObjeto(float escala) {
-        Transform3D escalarObj = new Transform3D();
-        escalarObj.setScale(escala);
-        return escalarObj;
+    //Métodos auxiliares
+    private void rotar(tipoTransformacion eje, float angulo) {
+        Transform3D nueva = MiLibreria3D.rotarDinamico(eje, angulo);
+        Transform3D actual = new Transform3D();
+        tgPersonaje.getTransform(actual);
+        actual.mul(nueva);
+        tgPersonaje.setTransform(actual);
     }
 }

@@ -38,10 +38,15 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class MiLibreria3D {
 
-    public static enum tipoTransformacion {enX, enY, enZ};
+    public static enum tipoTransformacion {
 
-    public static enum tipoFigura {rectangulo, esfera, cilindro, objetoOBJ};
-    
+        enX, enY, enZ
+    };
+
+    public static enum tipoFigura {
+
+        rectangulo, esfera, cilindro, objetoOBJ
+    };
     static tipoTransformacion transformacion;
     public static Color3f rojo = new Color3f(1.0f, 0.0f, 0.0f);
     public static Color3f verde = new Color3f(0.0f, 1.0f, 0.0f);
@@ -49,11 +54,16 @@ public class MiLibreria3D {
     public static Color3f amarillo = new Color3f(1.0f, 1.0f, 0.0f);
     public static Color3f cian = new Color3f(0.0f, 1.0f, 1.0f);
     public static Color3f violeta = new Color3f(1.0f, 0.0f, 1.0f);
+    
+    
+
+    public static enum Direccion {
+        adelante, atras, izquierda, derecha
+    };
 
     /**
      * *******************
-     * Metodos de Pedro
-         ********************
+     * Metodos de Pedro *******************
      */
     /**
      * Rota el objeto indicado en el eje X,Y,Z que se indica
@@ -135,10 +145,10 @@ public class MiLibreria3D {
      * @return
      * @throws Exception
      */
-    public static BranchGroup crear(Vector3f posInicial, 
-            tipoFigura tipoFigura, 
-            Float ancho, Float alto, Float largo, 
-            Appearance apariencia, 
+    public static BranchGroup crear(Vector3f posInicial,
+            tipoFigura tipoFigura,
+            Float ancho, Float alto, Float largo,
+            Appearance apariencia,
             String urlObjeto) throws Exception {
         // Creamos el BranchGroup que vamos a devolver
         BranchGroup objetoBG = new BranchGroup();
@@ -146,22 +156,22 @@ public class MiLibreria3D {
         if (tipoFigura.equals(tipoFigura.rectangulo)) {
             Box cubo = new Box(ancho, alto, largo, apariencia);
             objetoBG.addChild(MiLibreria3D.trasladarEstatico(cubo, posInicial));
-        } else if(tipoFigura.equals(tipoFigura.esfera)){
+        } else if (tipoFigura.equals(tipoFigura.esfera)) {
             Sphere esfera = new Sphere(ancho, apariencia);
             objetoBG.addChild(MiLibreria3D.trasladarEstatico(esfera, posInicial));
-        } else if(tipoFigura.equals(tipoFigura.cilindro)){
+        } else if (tipoFigura.equals(tipoFigura.cilindro)) {
             Cylinder cilindro = new Cylinder(ancho, alto, apariencia);
             objetoBG.addChild(MiLibreria3D.trasladarEstatico(cilindro, posInicial));
-        }else if (tipoFigura.equals(tipoFigura.objetoOBJ)) {
+        } else if (tipoFigura.equals(tipoFigura.objetoOBJ)) {
             Scene scene = getOBJ(urlObjeto);
-            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(scene.getSceneGroup(),ancho),posInicial));
+            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(scene.getSceneGroup(), ancho), posInicial));
         } else {
             throw new Exception("Error al crear la figura");
         }
 
         return objetoBG;
     }
-    
+
     private static Scene getOBJ(String urlObjeto) {
         // Creando un objeto OBJ
         ObjectFile file = new ObjectFile(ObjectFile.RESIZE);
@@ -367,19 +377,44 @@ public class MiLibreria3D {
         Shape3D forma = new Shape3D(linea);
         rootBG.addChild(forma);
     }
-    
+
     /**
-	 * Devuelve un DirectionalLight
-	 * @return
-	 */
-	public static DirectionalLight getDefaultIlumination(){
-		DirectionalLight LuzDireccional = new DirectionalLight(new Color3f (1f, 1f, 1f), new Vector3f (1f, 0f, -1f));
-		BoundingSphere limites= new BoundingSphere(new Point3d(-5 , 0, 5), 100.0); //Localizacion de fuente/paso de luz
-		LuzDireccional.setInfluencingBounds (limites);
-		return LuzDireccional;
-	}
-    
+     * Devuelve un DirectionalLight
+     *
+     * @return
+     */
+    public static DirectionalLight getDefaultIlumination() {
+        DirectionalLight LuzDireccional = new DirectionalLight(new Color3f(1f, 1f, 1f), new Vector3f(1f, 0f, -1f));
+        BoundingSphere limites = new BoundingSphere(new Point3d(-5, 0, 5), 100.0); //Localizacion de fuente/paso de luz
+        LuzDireccional.setInfluencingBounds(limites);
+        return LuzDireccional;
+    }
+
     /**
      * Metodos de Alex
      */
+    public static Transform3D rotarDinamico(tipoTransformacion tipoRot, float angulo) {
+        angulo = (float) Math.toRadians(angulo);
+        Transform3D rotarObj = new Transform3D();
+        if (tipoRot.equals(tipoTransformacion.enX)) {
+            rotarObj.rotX(angulo);
+        } else if (tipoRot.equals(tipoTransformacion.enY)) {
+            rotarObj.rotY(angulo);
+        } else if (tipoRot.equals(tipoTransformacion.enZ)) {
+            rotarObj.rotZ(angulo);
+        }
+        return rotarObj;
+    }
+
+    public static Transform3D escalarDinamico(float escala) {
+        Transform3D escalarObj = new Transform3D();
+        escalarObj.setScale(escala);
+        return escalarObj;
+    }
+
+    public static Transform3D trasladarDinamico(Vector3f distancia) {
+        Transform3D trasladarObj = new Transform3D();
+        trasladarObj.setTranslation(distancia);
+        return trasladarObj;
+    }
 }

@@ -7,11 +7,9 @@ package Character;
 import java.util.Enumeration;
 import javax.media.j3d.Behavior;
 import javax.media.j3d.BoundingSphere;
-import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.WakeupOnElapsedFrames;
 import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 /**
@@ -21,10 +19,8 @@ import javax.vecmath.Vector3f;
 public class ComportamientoMostrar extends Behavior {
 
     //Constantes
-    private final float VEL_ANDAR_V = 0.005f;
-    private final float VEL_ANDAR_H = 0.003f;
-    private final float VEL_CORRER_V = 0.012f;
-    private final float VEL_CORRER_H = 0.01f;
+    private final float VEL_ANDAR = 0.005f;
+    private final float VEL_CORRER = 0.012f;
     //Atributos
     Personaje personaje;
     TransformGroup TG_personaje;
@@ -49,38 +45,37 @@ public class ComportamientoMostrar extends Behavior {
     }
 
     private void actualizarPersonaje() {
-        Transform3D t3dNuevaPersonaje = new Transform3D();
+        Vector3f nuevaPosicion = new Vector3f(0f, 0f, 0f);
 
         if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
-            
+
+            if (personaje.getDerecha()) {
+                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
+                personaje.rotarDerecha();
+            }
+            if (personaje.getIzquierda()) {
+                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
+                personaje.rotarIzquierda();
+            }
+            if (personaje.getAdelante()) {
+                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
+                personaje.rotarAdelante();
+            }
+            if (personaje.getAtras()) {
+                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
+                personaje.rotarAtras();
+            }
+            System.out.println("Posicion: " + personaje.getPosicion());
             (new Thread() {
                 public void run() {
                     personaje.correr();
                 }
             }).start();
-            
-            if (personaje.getDerecha()) {
-                t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_H));
-            }
-            if (personaje.getIzquierda()) {
-                t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_H));
-            }
-            if (personaje.getAdelante()) {
-                t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_V));
-            }
-            if (personaje.getAtras()) {
-                t3dNuevaPersonaje.set(new Vector3f(0f, 0f, VEL_CORRER_V));
-            }
+            personaje.desplazar(nuevaPosicion);
         } else {
             if (personaje.getAndando()) {
                 personaje.correr();
             }
         }
-        Transform3D t3dPersonaje = new Transform3D();
-        TG_personaje.getTransform(t3dPersonaje);
-        t3dPersonaje.mul(t3dNuevaPersonaje);
-        TG_personaje.setTransform(t3dPersonaje);
-        Vector3d nuevaPosicion = new Vector3d();
-        t3dNuevaPersonaje.get(nuevaPosicion);
     }
 }
