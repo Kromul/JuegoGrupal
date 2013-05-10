@@ -4,6 +4,9 @@
  */
 package CreacionMapas;
 
+import Character.ComportamientoMostrar;
+import Character.ControlPersonaje;
+import Character.Personaje;
 import Libreria3D.MiLibreria3D;
 import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.loaders.objectfile.ObjectFile;
@@ -34,6 +37,11 @@ import javax.vecmath.Vector3f;
 public class BigMind extends JFrame {
 
     SimpleUniverse universo;
+    
+    // Personaje
+    public Personaje personaje = new Personaje();
+    public ControlPersonaje control = new ControlPersonaje(personaje);
+    public ComportamientoMostrar mostrar = new ComportamientoMostrar(personaje);
 
     public BigMind() {
         Container GranPanel = getContentPane();
@@ -58,68 +66,18 @@ public class BigMind extends JFrame {
     BranchGroup crearEscena() {
         BranchGroup rootBG = new BranchGroup();
         BranchGroup escenaBG = new BranchGroup();
-        BranchGroup elefanteBG = new BranchGroup();
-        try {
-            String escena = "";
-            escena = escena + leerArchivo(escena, "EscenaBasica.txt");
-            StringTokenizer str = new StringTokenizer(escena, "\t");
+        
+        // Creamos el mundo 3D
+        rootBG.addChild(crearMundo());
+        
+        //Añadimos el personaje
+        rootBG.addChild(personaje.getTG());
 
-            // Configuramos los rectangulos que crearan la escena
-            float ancho = 0.5f;
-            float largo = 0.5f;
-            float alto = 0.1f;
-            float posInicialX = 0.0f;
-            float posInicialY = 0.0f;
-            float posInicialZ = 0.0f;
-            float posSiguienteX = 0.0f;
-            float posSiguienteY = alto;
-            float posSiguienteZ = 0.0f;
-            MiLibreria3D.tipoFigura tipoFigura = MiLibreria3D.tipoFigura.rectangulo;
-            String urlTexturaMuro = System.getProperty("user.dir") + "//" + "src//resources//textura_muro.jpg";
+        //Añadimos el control del personaje
+        rootBG.addChild(control);
 
-            // Creamos el escenario
-            while (str.hasMoreTokens()) {
-                String elemento = str.nextToken();
-                System.out.println(elemento);
-                if (elemento.contains("final")) {
-                    posSiguienteX = posInicialX;
-                    posSiguienteZ = posSiguienteZ + largo * 2;
-                } else if (elemento.contains("suelo")) {
-                    posSiguienteX = posSiguienteX + ancho * 2;
-                } else if (elemento.contains("muro")) {
-                    posSiguienteX = posSiguienteX + ancho * 2;
-
-                    escenaBG.addChild(MiLibreria3D.crear(new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ),
-                            tipoFigura, ancho, alto, largo,
-                            MiLibreria3D.getTexture(urlTexturaMuro, this),
-                            ""));
-                }
-            }
-            rootBG.addChild(escenaBG);
-
-            // Situamos el elefante
-            String elefanteURL = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/otros/dragon.obj";
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 3.0f, 0.0f),
-                    MiLibreria3D.tipoFigura.objetoOBJ, 1.0f, null, null,
-                    null,
-                    elefanteURL));
-
-            String urlFuego = System.getProperty("user.dir") + "//" + "src//resources//textura_fuego.jpg";
-            // Situamos una esfera
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f),
-                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null,
-                    MiLibreria3D.getTexture(urlFuego, this),
-                    null));
-
-            // Situamos un cilindro
-            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 1.5f, 0.0f),
-                    MiLibreria3D.tipoFigura.cilindro, 0.25f, 0.25f, null,
-                    MiLibreria3D.getTexture(urlFuego, this),
-                    null));
-
-        } catch (Exception ex) {
-            Logger.getLogger(BigMind.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Añadimos el mostrar
+        rootBG.addChild(mostrar);
 
         // Elementos por defecto de la escena
         String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/textura_cielo.jpg";
@@ -154,5 +112,77 @@ public class BigMind extends JFrame {
             System.err.println("Ocurrio un error: " + e.getMessage());
         }
         return escena;
+    }
+
+    private BranchGroup crearMundo() {
+        BranchGroup mundoBG = new BranchGroup();
+        try {
+            String escena = "";
+            escena = escena + leerArchivo(escena, "EscenaBasica.txt");
+            StringTokenizer str = new StringTokenizer(escena, "\t");
+
+            // Configuramos los rectangulos que crearan la escena
+            float ancho = 0.5f;
+            float largo = 0.5f;
+            float alto = 0.1f;
+            float posInicialX = 0.0f;
+            float posInicialY = 0.0f;
+            float posInicialZ = 0.0f;
+            float posSiguienteX = 0.0f;
+            float posSiguienteY = alto;
+            float posSiguienteZ = 0.0f;
+            MiLibreria3D.tipoFigura tipoFigura = MiLibreria3D.tipoFigura.rectangulo;
+            String urlTexturaMuro = System.getProperty("user.dir") + "//" + "src//resources//textura_muro.jpg";
+
+            // Creamos el escenario
+            while (str.hasMoreTokens()) {
+                String elemento = str.nextToken();
+                System.out.println(elemento);
+                if (elemento.contains("final")) {
+                    posSiguienteX = posInicialX;
+                    posSiguienteZ = posSiguienteZ + largo * 2;
+                } else if (elemento.contains("suelo")) {
+                    posSiguienteX = posSiguienteX + ancho * 2;
+                } else if (elemento.contains("muro")) {
+                    posSiguienteX = posSiguienteX + ancho * 2;
+
+                    mundoBG.addChild(MiLibreria3D.crear(new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ),
+                            tipoFigura, ancho, alto, largo,
+                            MiLibreria3D.getTexture(urlTexturaMuro, this),
+                            ""));
+                }
+            }
+
+            // Situamos el objeto OBJ
+//            String objetoURL = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/edificios/city.obj";
+//            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 7.25f, 0.0f),
+//                    MiLibreria3D.tipoFigura.objetoOBJ, 20.0f, null, null,
+//                    null,
+//                    objetoURL));
+            
+            String objetoURL2 = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/edificios/house.obj";
+            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 5f, 0.0f),
+                    MiLibreria3D.tipoFigura.objetoOBJ, 1.0f, null, null,
+                    null,
+                    objetoURL2));
+
+            String urlFuego = System.getProperty("user.dir") + "//" + "src//resources//textura_fuego.jpg";
+            // Situamos una esfera
+            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f),
+                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null,
+                    MiLibreria3D.getTexture(urlFuego, this),
+                    null));
+
+            // Situamos un cilindro
+            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 1.5f, 0.0f),
+                    MiLibreria3D.tipoFigura.cilindro, 0.25f, 0.25f, null,
+                    MiLibreria3D.getTexture(urlFuego, this),
+                    null));
+
+        } catch (Exception ex) {
+            Logger.getLogger(BigMind.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return mundoBG;
     }
 }
