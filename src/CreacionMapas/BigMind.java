@@ -80,10 +80,10 @@ public class BigMind extends JFrame {
         rootBG.addChild(mostrar);
 
         // Elementos por defecto de la escena
-        String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/textura_cielo.jpg";
-        String rutaSonido = "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/magic_bells.wav";
+        String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_cielo.jpg";
+        String rutaSonido = "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/sonido/magic_bells.wav";
         MiLibreria3D.setBackground(rootBG, rutaFondo, this, 1);
-//        MiLibreria3D.addSound(universo, rootBG, rutaSonido);
+        MiLibreria3D.addSound(universo, rootBG, rutaSonido);
         rootBG.addChild(MiLibreria3D.CrearSuelo());
         rootBG.addChild(MiLibreria3D.CrearEjesCoordenada());
         rootBG.addChild(MiLibreria3D.getDefaultIlumination());
