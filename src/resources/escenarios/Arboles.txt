@@ -1,0 +1,2 @@
+obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	final	|
+obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	final	|
