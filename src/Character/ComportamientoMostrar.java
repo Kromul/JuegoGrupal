@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Character;
 
 import java.util.Enumeration;
@@ -13,14 +9,13 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
 
 /**
- *
  * @author Alex
  */
 public class ComportamientoMostrar extends Behavior {
 
     //Constantes
-    private final float VEL_ANDAR = 0.005f;
-    private final float VEL_CORRER = 0.02f;
+    private final float VEL_ANDAR = 0.02f;
+    private final float VEL_CORRER = 0.05f;
     //Atributos
     Personaje personaje;
     TransformGroup TG_personaje;
@@ -45,36 +40,58 @@ public class ComportamientoMostrar extends Behavior {
     }
 
     private void actualizarPersonaje() {
-        Vector3f nuevaPosicion = new Vector3f(0f, 0f, 0f);
         if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
-            if (personaje.getDerecha()) {
+            Vector3f nuevaPosicion;
+            if (personaje.getCorriendo()) {
                 nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
-                personaje.rotarDerecha();
+            } else {
+                nuevaPosicion = new Vector3f(0f, VEL_ANDAR, 0f);
             }
-            if (personaje.getIzquierda()) {
-                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
-                personaje.rotarIzquierda();
-            }
-            if (personaje.getAdelante()) {
-                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
-                personaje.rotarAdelante();
-            }
-            if (personaje.getAtras()) {
-                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
-                personaje.rotarAtras();
+            if (personaje.getAdDer()) {
+                personaje.rotarAdelanteDerecha();
+            } else if (personaje.getAdIzq()) {
+                personaje.rotarAdelanteIzquierda();
+            } else if (personaje.getAtDer()) {
+                personaje.rotarAtrasDerecha();
+            } else if (personaje.getAtIzq()) {
+                personaje.rotarAtrasIzquierda();
+            } else {
+                if (personaje.getDerecha()) {
+                    personaje.rotarDerecha();
+                }
+                if (personaje.getIzquierda()) {
+                    personaje.rotarIzquierda();
+                }
+                if (personaje.getAdelante()) {
+                    personaje.rotarAdelante();
+                }
+                if (personaje.getAtras()) {
+                    personaje.rotarAtras();
+                }
             }
             System.out.println("Posicion actual: " + personaje.getPosicion());
             System.out.println("Apuntando: " + personaje.getPuntoDireccion());
             System.out.println();
-            (new Thread() {
-                public void run() {
-                    personaje.correr();
-                }
-            }).start();
+            if (personaje.getCorriendo()) {
+                (new Thread() {
+                    public void run() {
+                        personaje.correr();
+                    }
+                }).start();
+            } else {
+                (new Thread() {
+                    public void run() {
+                        personaje.andar();
+                    }
+                }).start();
+            }
             personaje.desplazar(nuevaPosicion);
         } else {
             if (personaje.getAndando()) {
-                personaje.correr();
+                personaje.andar();
+            }
+            if (personaje.getAtacar()) {
+                personaje.atacar();
             }
         }
     }

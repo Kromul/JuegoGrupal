@@ -27,8 +27,7 @@ public class Personaje {
     private final String MDL = "iron_golem.mdl";
     private final String ACCION_CORRER = "iron_golem:crun";
     private final String ACCION_ANDAR = "iron_golem:cwalk";
-    private final String ACCION_ATACAR = "iron_golem:cstab";
-    private final String ACCION_PAUSA = "iron_golem:cpause";
+    private final String ACCION_ATACAR = "iron_golem:ca1stab";
     private final float ESCALA = 0.3f;
     //Atributos
     private Scene personaje;
@@ -38,6 +37,8 @@ public class Personaje {
     private Point3f puntoDireccion;
     private Direccion direccion;
     private boolean adelante, atras, izquierda, derecha, adder, adizq, atder, atizq;
+    private boolean atacar;
+    private boolean corriendo;
     private boolean andando;
 
     public Personaje() {
@@ -46,7 +47,7 @@ public class Personaje {
             posicionActual = new Point3f(0f, 0f, 0f);
             direccion = Direccion.adelante;
             actualizarDireccion();
-            adelante = atras = izquierda = derecha = andando = adder = adizq = atder = atizq = false;
+            adelante = atras = izquierda = derecha = adder = adizq = atder = atizq = andando = corriendo = atacar = false;
             //Inicialización del personaje
             NWNLoader nwn2 = new NWNLoader();
             nwn2.enableModelCache(true);
@@ -105,6 +106,14 @@ public class Personaje {
         atizq = estado;
     }
 
+    public void setCorriendo(boolean estado) {
+        corriendo = estado;
+    }
+
+    public void setAtacar(boolean estado) {
+        atacar = estado;
+    }
+
     public boolean getAdelante() {
         return adelante;
     }
@@ -139,6 +148,14 @@ public class Personaje {
 
     public boolean getAndando() {
         return andando;
+    }
+
+    public boolean getCorriendo() {
+        return corriendo;
+    }
+
+    public boolean getAtacar() {
+        return atacar;
     }
 
     public Point3f getPosicion() {
@@ -316,7 +333,19 @@ public class Personaje {
         tgPersonaje.getTransform(actual);
         actual.mul(nueva);
         tgPersonaje.setTransform(actual);
-        if (direccion.equals(Direccion.adelante)) {
+        if (direccion.equals(Direccion.adDer)) {
+            posicionActual.setX(posicionActual.getX() + distancia.getY() * ESCALA);
+            posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
+        } else if (direccion.equals(Direccion.adIzq)) {
+            posicionActual.setX(posicionActual.getX() - distancia.getY() * ESCALA);
+            posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
+        } else if (direccion.equals(Direccion.atDer)) {
+            posicionActual.setX(posicionActual.getX() + distancia.getY() * ESCALA);
+            posicionActual.setZ(posicionActual.getZ() + distancia.getY() * ESCALA);
+        } else if (direccion.equals(Direccion.atIzq)) {
+            posicionActual.setX(posicionActual.getX() - distancia.getY() * ESCALA);
+            posicionActual.setZ(posicionActual.getZ() + distancia.getY() * ESCALA);
+        } else if (direccion.equals(Direccion.adelante)) {
             posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
         } else if (direccion.equals(Direccion.atras)) {
             posicionActual.setZ(posicionActual.getZ() + distancia.getY() * ESCALA);
@@ -329,15 +358,30 @@ public class Personaje {
     }
 
     //Animaciones
+    public void andar() {
+        if (!andando) {
+            animacion.playAnimation(ACCION_ANDAR, true);
+            andando = true;
+        }
+        if (andando && !adelante && !atras && !izquierda && !derecha && !adder && !adizq && !atder && !atizq) {
+            animacion.playDefaultAnimation();
+            andando = false;
+        }
+    }
+
     public void correr() {
         if (!andando) {
             animacion.playAnimation(ACCION_CORRER, true);
             andando = true;
         }
-        if (andando && !adelante && !atras && !izquierda && !derecha) {
+        if (andando && !corriendo) {
             animacion.playDefaultAnimation();
             andando = false;
         }
+    }
+
+    public void atacar() {
+        animacion.playAnimation(ACCION_ATACAR, false);
     }
 
     //Métodos auxiliares
@@ -351,15 +395,7 @@ public class Personaje {
 
     private void actualizarDireccion() {
         puntoDireccion = new Point3f(posicionActual.getX(), posicionActual.getY(), posicionActual.getZ());
-        if (direccion.equals(Direccion.adelante)) {
-            puntoDireccion.setZ(puntoDireccion.getZ() - 1);
-        } else if (direccion.equals(Direccion.atras)) {
-            puntoDireccion.setZ(puntoDireccion.getZ() + 1);
-        } else if (direccion.equals(Direccion.izquierda)) {
-            puntoDireccion.setX(puntoDireccion.getX() - 1);
-        } else if (direccion.equals(Direccion.derecha)) {
-            puntoDireccion.setX(puntoDireccion.getX() + 1);
-        } else if (direccion.equals(Direccion.adDer)) {
+        if (direccion.equals(Direccion.adDer)) {
             puntoDireccion.setZ(puntoDireccion.getZ() - 1);
             puntoDireccion.setX(puntoDireccion.getX() + 1);
         } else if (direccion.equals(Direccion.adIzq)) {
@@ -371,6 +407,14 @@ public class Personaje {
         } else if (direccion.equals(Direccion.atIzq)) {
             puntoDireccion.setZ(puntoDireccion.getZ() - 1);
             puntoDireccion.setX(puntoDireccion.getX() - 1);
+        } else if (direccion.equals(Direccion.adelante)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() - 1);
+        } else if (direccion.equals(Direccion.atras)) {
+            puntoDireccion.setZ(puntoDireccion.getZ() + 1);
+        } else if (direccion.equals(Direccion.izquierda)) {
+            puntoDireccion.setX(puntoDireccion.getX() - 1);
+        } else if (direccion.equals(Direccion.derecha)) {
+            puntoDireccion.setX(puntoDireccion.getX() + 1);
         }
     }
 }
