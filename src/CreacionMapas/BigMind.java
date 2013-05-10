@@ -71,7 +71,7 @@ public class BigMind extends JFrame {
         rootBG.addChild(crearMundo());
         
         //Añadimos el personaje
-        rootBG.addChild(personaje.getTG());
+        rootBG.addChild(MiLibreria3D.trasladarEstatico(personaje.getTG(), new Vector3f(-2,0,-2)));
 
         //Añadimos el control del personaje
         rootBG.addChild(control);
@@ -146,10 +146,10 @@ public class BigMind extends JFrame {
                 } else if (elemento.contains("muro")) {
                     posSiguienteX = posSiguienteX + ancho * 2;
 
-                    mundoBG.addChild(MiLibreria3D.crear(new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ),
-                            tipoFigura, ancho, alto, largo,
-                            MiLibreria3D.getTexture(urlTexturaMuro, this),
-                            ""));
+//                    mundoBG.addChild(MiLibreria3D.crear(new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ),
+//                            tipoFigura, ancho, alto, largo,
+//                            MiLibreria3D.getTexture(urlTexturaMuro, this),
+//                            ""));
                 }
             }
 
@@ -160,24 +160,25 @@ public class BigMind extends JFrame {
 //                    null,
 //                    objetoURL));
             
-            String objetoURL2 = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/edificios/house.obj";
-            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 5f, 0.0f),
-                    MiLibreria3D.tipoFigura.objetoOBJ, 1.0f, null, null,
+            String objetoURL2 = System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/ataques/clava.obj";
+            float escala = 1;
+            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.75f*escala, 0.70f*escala, 1.0f),
+                    MiLibreria3D.tipoFigura.objetoOBJ, escala, null, null,
                     null,
                     objetoURL2));
 
             String urlFuego = System.getProperty("user.dir") + "//" + "src//resources//textura_fuego.jpg";
             // Situamos una esfera
-            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f),
-                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null,
-                    MiLibreria3D.getTexture(urlFuego, this),
-                    null));
+//            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f),
+//                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null,
+//                    MiLibreria3D.getTexture(urlFuego, this),
+//                    null));
 
             // Situamos un cilindro
-            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 1.5f, 0.0f),
-                    MiLibreria3D.tipoFigura.cilindro, 0.25f, 0.25f, null,
-                    MiLibreria3D.getTexture(urlFuego, this),
-                    null));
+//            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 1.5f, 0.0f),
+//                    MiLibreria3D.tipoFigura.cilindro, 0.25f, 0.25f, null,
+//                    MiLibreria3D.getTexture(urlFuego, this),
+//                    null));
 
         } catch (Exception ex) {
             Logger.getLogger(BigMind.class.getName()).log(Level.SEVERE, null, ex);
