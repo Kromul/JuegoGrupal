@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
@@ -38,7 +39,6 @@ public class BigMind extends JFrame {
     public Personaje personaje = new Personaje();
     public ControlPersonaje control = new ControlPersonaje(personaje);
     public ComportamientoMostrar mostrar = new ComportamientoMostrar(personaje);
-    
     // Constantes
     final String NO_EXISTE = "archivo no existente";
     final Float ESPACIO_Z = 2.0f; // espacio en el eje z entre los objetos
@@ -82,9 +82,17 @@ public class BigMind extends JFrame {
         // Elementos por defecto de la escena
         String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_cielo.jpg";
         String rutaSonido = "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/sonido/magic_bells.wav";
+        String rutaSuelo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_hielo.jpg";
         MiLibreria3D.setBackground(rootBG, rutaFondo, this, 1);
         MiLibreria3D.addSound(universo, rootBG, rutaSonido);
-        rootBG.addChild(MiLibreria3D.CrearSuelo());
+        try {
+            rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, -1.0f, 0.0f),
+                    MiLibreria3D.tipoFigura.rectangulo, 20.0f, 1.0f, 20.0f,
+                    MiLibreria3D.getTexture(rutaSuelo, this),
+                    null));
+        } catch (Exception ex) {
+            Logger.getLogger(BigMind.class.getName()).log(Level.SEVERE, null, ex);
+        }
         rootBG.addChild(MiLibreria3D.CrearEjesCoordenada());
         rootBG.addChild(MiLibreria3D.getDefaultIlumination());
 
@@ -134,14 +142,14 @@ public class BigMind extends JFrame {
             float posInicialX = 0.0f;
             float posInicialY = 0.0f;
             float posInicialZ = 0.0f;
-            float posSiguienteX = 0.0f;
-            float posSiguienteY = 0.0f;
-            float posSiguienteZ = 0.0f;
+            float posSiguienteX = posInicialX;
+            float posSiguienteY = posInicialY;
+            float posSiguienteZ = posInicialZ;
             MiLibreria3D.tipoFigura tipoFigura = MiLibreria3D.tipoFigura.rectangulo;
             String urlTexturaMuro = System.getProperty("user.dir") + "//" + "src//resources//textura_muro.jpg";
 
             // Creamos el escenario
-         
+
             while (str.hasMoreTokens()) {
                 String elemento = str.nextToken();
                 System.out.println(elemento);
@@ -163,12 +171,16 @@ public class BigMind extends JFrame {
                     String archivo = NO_EXISTE;
                     if (elemento.contains("natur")) {
                         carpeta = "naturaleza";
-                        if (elemento.contains("asteroid")) { archivo = "asteroid";}
+                        if (elemento.contains("asteroid")) {
+                            archivo = "asteroid";
+                        }
                     } else if (elemento.contains("ataq")) {
                         carpeta = "ataques";
                     } else if (elemento.contains("edif")) {
                         carpeta = "edificios";
-                        if (elemento.contains("fence")) { archivo = "fence";}
+                        if (elemento.contains("fence")) {
+                            archivo = "fence";
+                        }
                     }
 
                     // Conseguimos la escala
@@ -180,17 +192,19 @@ public class BigMind extends JFrame {
                     boolean encontradoPosicion = false;
                     while (str_info.hasMoreTokens() && !encontradoPosicion) {
                         elemento_info = str_info.nextToken();
-                        if (elemento_info.equalsIgnoreCase(archivo)) {encontradoPosicion = true;}
+                        if (elemento_info.equalsIgnoreCase(archivo)) {
+                            encontradoPosicion = true;
+                        }
                     }
 
                     if (!encontradoPosicion || carpeta.equalsIgnoreCase(NO_EXISTE) || archivo.equalsIgnoreCase(NO_EXISTE)) {
                         throw new IllegalArgumentException("La carpeta/archivo OBJ señalado no existe");
                     } else {
                         System.out.println(escala);
-                        posSiguienteX = posSiguienteX + (Float.parseFloat(str_info.nextToken())* escala)*2;
-                        posSiguienteY = Float.parseFloat(str_info.nextToken())* escala;
+                        posSiguienteX = posSiguienteX + (Float.parseFloat(str_info.nextToken()) * escala) * 2;
+                        posSiguienteY = Float.parseFloat(str_info.nextToken()) * escala;
 
-                        posicion = new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ + Float.parseFloat(str_info.nextToken())* escala);
+                        posicion = new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ + Float.parseFloat(str_info.nextToken()) * escala);
 
                         System.out.println(posSiguienteX);
                         System.out.println(posSiguienteY);
@@ -200,14 +214,14 @@ public class BigMind extends JFrame {
                     System.out.println(carpeta);
                     System.out.println(archivo);
                     System.out.println(posSiguienteY);
-                    
+
                     // Lo introducimos dentro del arbol y lo trasladamos al lugar correcto
                     mundoBG.addChild(MiLibreria3D.crear(new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ),
                             MiLibreria3D.tipoFigura.objetoOBJ, escala, null, null,
                             null,
-                            System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/"+carpeta+"/"+archivo+".obj"));
-                    
-                    
+                            System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/" + carpeta + "/" + archivo + ".obj"));
+
+
                 }
             }
 
@@ -225,7 +239,7 @@ public class BigMind extends JFrame {
 //                    null,
 //                    objetoURL2));
 
-            String urlFuego = System.getProperty("user.dir") + "//" + "src//resources//textura_fuego.jpg";
+            String urlFuego = System.getProperty("user.dir") + "//" + "src//resources//texturas//textura_fuego.jpg";
             // Situamos una esfera
 //            mundoBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, 0.75f, 0.0f),
 //                    MiLibreria3D.tipoFigura.esfera, 0.25f, null, null,
@@ -244,5 +258,4 @@ public class BigMind extends JFrame {
 
         return mundoBG;
     }
-
 }
