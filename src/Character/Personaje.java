@@ -2,7 +2,7 @@ package Character;
 
 import Libreria3D.MiLibreria3D;
 import Libreria3D.MiLibreria3D.Direccion;
-import Libreria3D.MiLibreria3D.TtipoTrans;
+import Libreria3D.MiLibreria3D.tipoTrans;
 import com.sun.j3d.loaders.IncorrectFormatException;
 import com.sun.j3d.loaders.ParsingErrorException;
 import com.sun.j3d.loaders.Scene;
@@ -58,7 +58,7 @@ public class Personaje {
             tgPersonaje = new TransformGroup();
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            rotar(TtipoTrans.enX, -90);
+            rotar(tipoTrans.enX, -90);
             escalar(ESCALA);
             tgPersonaje.addChild(bgPersonaje);
 
@@ -169,152 +169,152 @@ public class Personaje {
     //Transformaciones
     public void rotarIzquierda() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         }
         direccion = Direccion.izquierda;
     }
 
     public void rotarDerecha() {
         if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         }
         direccion = Direccion.derecha;
     }
 
     public void rotarAdelante() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         } else if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         }
         direccion = Direccion.adelante;
     }
 
     public void rotarAtras() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         }
         direccion = Direccion.atras;
     }
 
     public void rotarAtrasIzquierda() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         }
         direccion = Direccion.atIzq;
     }
 
     public void rotarAtrasDerecha() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         }
         direccion = Direccion.atDer;
     }
 
     public void rotarAdelanteIzquierda() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         } else if (direccion.equals(Direccion.adDer)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         }
         direccion = Direccion.adIzq;
     }
 
     public void rotarAdelanteDerecha() {
         if (direccion.equals(Direccion.derecha)) {
-            rotar(TtipoTrans.enZ, 45);
+            rotar(tipoTrans.enZ, 45);
         } else if (direccion.equals(Direccion.adelante)) {
-            rotar(TtipoTrans.enZ, -45);
+            rotar(tipoTrans.enZ, -45);
         } else if (direccion.equals(Direccion.atras)) {
-            rotar(TtipoTrans.enZ, 135);
+            rotar(tipoTrans.enZ, 135);
         } else if (direccion.equals(Direccion.izquierda)) {
-            rotar(TtipoTrans.enZ, -135);
+            rotar(tipoTrans.enZ, -135);
         } else if (direccion.equals(Direccion.atDer)) {
-            rotar(TtipoTrans.enZ, 90);
+            rotar(tipoTrans.enZ, 90);
         } else if (direccion.equals(Direccion.atIzq)) {
-            rotar(TtipoTrans.enZ, 180);
+            rotar(tipoTrans.enZ, 180);
         } else if (direccion.equals(Direccion.adIzq)) {
-            rotar(TtipoTrans.enZ, -90);
+            rotar(tipoTrans.enZ, -90);
         }
         direccion = Direccion.adDer;
     }
@@ -385,7 +385,7 @@ public class Personaje {
     }
 
     //Métodos auxiliares
-    private void rotar(TtipoTrans eje, float angulo) {
+    private void rotar(tipoTrans eje, float angulo) {
         Transform3D nueva = MiLibreria3D.rotarDinamico(eje, angulo);
         Transform3D actual = new Transform3D();
         tgPersonaje.getTransform(actual);

@@ -1,2 +1,3 @@
-obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	final	|
-obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	obj_natur_asteroid_e1	final	|
+obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1	obj_edif_fence_e1_rotY270/	final	|
+espacio enX2/enZ2/	espacio enX2/enZ2/	espacio enX2/enZ2/	espacio enX2/enZ2/	espacio enX2/enZ2/	espacio enX2/enZ2/	final	|
+obj_edif_granja_e3_rotY90/	obj_edif_granja_e3_rotY90/	obj_edif_granja_e3_rotY90/	obj_edif_granja_e3_rotY90/	obj_edif_granja_e3_rotY90/	obj_edif_granja_e3_rotY90/	final	|

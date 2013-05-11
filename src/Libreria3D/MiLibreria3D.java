@@ -38,7 +38,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class MiLibreria3D {
 
-    public static enum TtipoTrans {
+    public static enum tipoTrans {
 
         enX, enY, enZ
     };
@@ -47,7 +47,7 @@ public class MiLibreria3D {
 
         rectangulo, esfera, cilindro, objetoOBJ
     };
-    static TtipoTrans transformacion;
+    static tipoTrans transformacion;
     public static Color3f rojo = new Color3f(1.0f, 0.0f, 0.0f);
     public static Color3f verde = new Color3f(0.0f, 1.0f, 0.0f);
     public static Color3f azul = new Color3f(0.0f, 0.0f, 1.0f);
@@ -73,17 +73,17 @@ public class MiLibreria3D {
      * @param tipoRot
      * @return
      */
-    public static TransformGroup rotarEstatico(Node objeto, float grados, TtipoTrans tipoRot) {
+    public static TransformGroup rotarEstatico(Node objeto, float grados, tipoTrans tipoRot) {
         /* Transformacion a realizar sobre la esfera*/
         Transform3D rotacion = new Transform3D();
         //Datos de rotaci�n en X,Y,Z //Math.PI/4.0d); 
-        if (tipoRot.equals(TtipoTrans.enX)) {
+        if (tipoRot.equals(tipoTrans.enX)) {
             rotacion.rotX(Math.toRadians(grados));
         }
-        if (tipoRot.equals(TtipoTrans.enY)) {
+        if (tipoRot.equals(tipoTrans.enY)) {
             rotacion.rotY(Math.toRadians(grados));
         }
-        if (tipoRot.equals(TtipoTrans.enZ)) {
+        if (tipoRot.equals(tipoTrans.enZ)) {
             rotacion.rotZ(Math.toRadians(grados));
         }
         // Se asocia al objeto la transformacion
@@ -401,14 +401,14 @@ public class MiLibreria3D {
      * ****************
      * Metodos de Alex ****************
      */
-    public static Transform3D rotarDinamico(TtipoTrans tipoRot, float angulo) {
+    public static Transform3D rotarDinamico(tipoTrans tipoRot, float angulo) {
         angulo = (float) Math.toRadians(angulo);
         Transform3D rotarObj = new Transform3D();
-        if (tipoRot.equals(TtipoTrans.enX)) {
+        if (tipoRot.equals(tipoTrans.enX)) {
             rotarObj.rotX(angulo);
-        } else if (tipoRot.equals(TtipoTrans.enY)) {
+        } else if (tipoRot.equals(tipoTrans.enY)) {
             rotarObj.rotY(angulo);
-        } else if (tipoRot.equals(TtipoTrans.enZ)) {
+        } else if (tipoRot.equals(tipoTrans.enZ)) {
             rotarObj.rotZ(angulo);
         }
         return rotarObj;
