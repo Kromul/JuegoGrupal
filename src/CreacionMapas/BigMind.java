@@ -41,7 +41,7 @@ public class BigMind extends JFrame {
     public ComportamientoMostrar mostrar = new ComportamientoMostrar(personaje);
     // Constantes
     final String NO_EXISTE = "archivo no existente";
-    final Float ESPACIO_Z = 2.0f; // espacio en el eje z entre los objetos
+    final Float ESPACIO_Z = 3.0f; // espacio en el eje z entre los objetos
     // Escena
     String matrixScene[][];
 
@@ -151,8 +151,9 @@ public class BigMind extends JFrame {
             float posAnteriorY = posInicialY;
             float posAnteriorZ = posInicialZ;
             float escala = 1;
-            MiLibreria3D.tipoTrans transformacion = MiLibreria3D.tipoTrans.enX;
-            float grados = 0;
+            MiLibreria3D.tipoTrans[] transformacion = new MiLibreria3D.tipoTrans[3];
+            float[] grados = new float[3];
+            Float[] posManual = new Float[3];
             boolean esObjetoInicial = true; // esto nos sirve para colocar justo en (0,0,0) el comienzo del mapa
             MiLibreria3D.tipoFigura tipoFigura = MiLibreria3D.tipoFigura.rectangulo;
             String urlTexturaMuro = System.getProperty("user.dir") + "//" + "src//resources//textura_muro.jpg";
@@ -179,47 +180,88 @@ public class BigMind extends JFrame {
                     String archivo = NO_EXISTE;
                     if (elemento.contains("natur")) {
                         carpeta = "naturaleza";
-                        if (elemento.contains("asteroid")) {archivo = "asteroid";}
-                        else if (elemento.contains("palm")) {archivo = "palm";}
-                        else if (elemento.contains("tree")) {archivo = "tree";}
-                        else if (elemento.contains("tree_dry")) {archivo = "tree_dry";}
-                        else if (elemento.contains("tree_conifer")) {archivo = "tree_conifer";}
-                        else if (elemento.contains("druid_morning_star")) {archivo = "druid_morning_star";}
-                        else if (elemento.contains("elephant")) {archivo = "elephant";}
-                        else if (elemento.contains("turtle")) {archivo = "turtle";}
+                        if (elemento.contains("asteroid")) {
+                            archivo = "asteroid";
+                        } else if (elemento.contains("palm")) {
+                            archivo = "palm";
+                        } else if (elemento.contains("tree")) {
+                            archivo = "tree";
+                        } else if (elemento.contains("tree_dry")) {
+                            archivo = "tree_dry";
+                        } else if (elemento.contains("tree_conifer")) {
+                            archivo = "tree_conifer";
+                        } else if (elemento.contains("druid_morning_star")) {
+                            archivo = "druid_morning_star";
+                        } else if (elemento.contains("elephant")) {
+                            archivo = "elephant";
+                        } else if (elemento.contains("turtle")) {
+                            archivo = "turtle";
+                        } else if (elemento.contains("mossy_rock")) {
+                            archivo = "mossy_rock";
+                        }
                     } else if (elemento.contains("ataq")) {
                         carpeta = "ataques";
-                        if (elemento.contains("mine")) {archivo = "mine";}
-                        else if (elemento.contains("microbio")) {archivo = "mine";}
-                        else if (elemento.contains("war_axe")) {archivo = "mine";}
+                        if (elemento.contains("mine")) {
+                            archivo = "mine";
+                        } else if (elemento.contains("microbio")) {
+//                            archivo = "microbio";
+                        } else if (elemento.contains("war_axe")) {
+                            archivo = "war_axe";
+                        }
                     } else if (elemento.contains("edif")) {
                         carpeta = "edificios";
-                        if (elemento.contains("house")) {archivo = "house";}
-                        else if (elemento.contains("fence")) {archivo = "fence";}
-                        else if (elemento.contains("granja")) {archivo = "granja";}
-                        else if (elemento.contains("granero")) {archivo = "granero";}
-                        else if (elemento.contains("rural_stall")) {archivo = "rural_stall";}
-                        else if (elemento.contains("bar_concreto2")) {archivo = "bar_concreto2";}
-                        else if (elemento.contains("bar_concreto")) {archivo = "bar_concreto";}
-                        else if (elemento.contains("brick_shader")) {archivo = "brick_shader";}
+                        if (elemento.contains("house")) {
+                            archivo = "house";
+                        } else if (elemento.contains("fence")) {
+                            archivo = "fence";
+                        } else if (elemento.contains("granja")) {
+                            archivo = "granja";
+                        } else if (elemento.contains("granero")) {
+                            archivo = "granero";
+                        } else if (elemento.contains("rural_stall")) {
+                            archivo = "rural_stall";
+                        } else if (elemento.contains("bar_concreto2")) {
+                            archivo = "bar_concreto2";
+                        } else if (elemento.contains("bar_concreto")) {
+                            archivo = "bar_concreto";
+                        } else if (elemento.contains("brick_shader")) {
+                            archivo = "brick_shader";
+                        }
                     }
 
                     // Conseguimos la escala
                     escala = (float) elemento.charAt(elemento.lastIndexOf("e") + 1) - 48;
-                    
+
                     // Conseguimos la rotacion
-                    if(elemento.contains("rotX")){
-                        transformacion = MiLibreria3D.tipoTrans.enX;
-                        grados = Float.parseFloat(elemento.substring(elemento.indexOf("rotY")+4,elemento.indexOf("/", elemento.indexOf("rotY")+4)));
-                    }else if(elemento.contains("rotY")){
-                        transformacion = MiLibreria3D.tipoTrans.enY;
-                        grados = Float.parseFloat(elemento.substring(elemento.indexOf("rotY")+4,elemento.indexOf("/", elemento.indexOf("rotY")+4)));
-                    }else if(elemento.contains("rotZ")){
-                        transformacion = MiLibreria3D.tipoTrans.enZ;
-                        grados = Float.parseFloat(elemento.substring(elemento.indexOf("rotY")+4,elemento.indexOf("/", elemento.indexOf("rotY")+4)));
+                    if (elemento.contains("rotX")) {
+                        transformacion[0] = MiLibreria3D.tipoTrans.enX;
+                        grados[0] = Float.parseFloat(elemento.substring(elemento.indexOf("rotX") + 4, elemento.indexOf("/", elemento.indexOf("rotX") + 4)));
                     }
-                    
-                    
+                    if (elemento.contains("rotY")) {
+                        transformacion[1] = MiLibreria3D.tipoTrans.enY;
+                        grados[1] = Float.parseFloat(elemento.substring(elemento.indexOf("rotY") + 4, elemento.indexOf("/", elemento.indexOf("rotY") + 4)));
+                    }
+                    if (elemento.contains("rotZ")) {
+                        transformacion[2] = MiLibreria3D.tipoTrans.enZ;
+                        grados[2] = Float.parseFloat(elemento.substring(elemento.indexOf("rotZ") + 4, elemento.indexOf("/", elemento.indexOf("rotZ") + 4)));
+                    }
+
+                    // Conseguimos la posicion en caso de qeu se vaya a realizar un posicionamiento manual
+                    posManual = null;
+                    if (elemento.contains("posX") || elemento.contains("posY") || elemento.contains("posZ")) {
+                        posManual = new Float[3];
+                        posManual[0] = posManual[1] = posManual[2] = 0.0f;
+                        if (elemento.contains("posX")) {
+                            posManual[0] = Float.parseFloat(elemento.substring(elemento.indexOf("posX") + 4, elemento.indexOf("/", elemento.indexOf("posX") + 4)));
+                        }
+                        if (elemento.contains("posY")) {
+                            posManual[1] = Float.parseFloat(elemento.substring(elemento.indexOf("posY") + 4, elemento.indexOf("/", elemento.indexOf("posY") + 4)));
+                        }
+                        if (elemento.contains("posZ")) {
+                            posManual[2] = Float.parseFloat(elemento.substring(elemento.indexOf("posZ") + 4, elemento.indexOf("/", elemento.indexOf("posZ") + 4)));
+                        }
+                    }
+
                     // Buscamos cual es la posicion de inicio del objeto en el archivo info_obj.txt
                     StringTokenizer str_info = new StringTokenizer(info_obj, "\t");
                     String elemento_info = "";
@@ -235,7 +277,11 @@ public class BigMind extends JFrame {
                     // pasamos al else y sino decimos que algo ha ido mal al intentar
                     // encontrar estos datos en el fichero info_obj.txt
                     if (!encontradoPosicion || carpeta.equalsIgnoreCase(NO_EXISTE) || archivo.equalsIgnoreCase(NO_EXISTE)) {
-                        throw new IllegalArgumentException("La carpeta/archivo OBJ señalado no existe");
+                        try {
+                            throw new IllegalArgumentException("La carpeta/archivo OBJ señalado no existe");
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("No se encontro la carpeta, archivo o datos de " + elemento);
+                        }
                     } else {
                         // Conseguimos el ancho, alto y largo del modelo
                         ancho = Float.parseFloat(str_info.nextToken());
@@ -247,32 +293,42 @@ public class BigMind extends JFrame {
                         // que se ven afectadas al rellenar nuestro mapa de izquierda
                         // a derecha
                         if (esObjetoInicial) {
-                            posAnteriorX = ancho*escala;
+                            posAnteriorX = ancho * escala;
                             esObjetoInicial = false;
                         } else {
-                            posAnteriorX = posSiguienteX + (ancho*escala);
+                            posAnteriorX = posSiguienteX + (ancho * escala);
                         }
                         posAnteriorY = alto * escala;
 
                         Vector3f posicion;
-                        posicion = new Vector3f(posAnteriorX, posAnteriorY, (posSiguienteZ+(largo*escala)));
+                        // Si el posicionamiento no es manual situamos el objeto en la posicion
+                        // siguiente situandolo al lado del anterior objeto
+                        if (posManual == null) {
+                            posicion = new Vector3f(posAnteriorX, posAnteriorY, (posSiguienteZ + (largo * escala)));
+                        } else {
+                            posicion = new Vector3f(posManual[0] + (ancho * escala), posManual[1] + (alto * escala), posManual[2] + (largo * escala));
+                        }
 
                         // Lo introducimos dentro del arbol y lo trasladamos al lugar correcto
                         mundoBG.addChild(MiLibreria3D.trasladarEstatico(
                                 MiLibreria3D.rotarEstatico(
-                                MiLibreria3D.crear(new Vector3f(0.0f,0.0f,0.0f),
+                                MiLibreria3D.rotarEstatico(
+                                MiLibreria3D.rotarEstatico(
+                                MiLibreria3D.crear(new Vector3f(0.0f, 0.0f, 0.0f),
                                 MiLibreria3D.tipoFigura.objetoOBJ, escala, null, null,
                                 null,
                                 System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/" + carpeta + "/" + archivo + ".obj"),
-                                grados, transformacion), 
+                                grados[0], transformacion[0]),
+                                grados[1], transformacion[1]),
+                                grados[2], transformacion[2]),
                                 posicion));
 
 
-                        posSiguienteX = posAnteriorX + ancho*escala;
-                        grados = 0;
+                        posSiguienteX = posAnteriorX + ancho * escala;
+                        transformacion[0] = transformacion[1] = transformacion[2] = null;
                     }
                 } else {
-                    posSiguienteX = posSiguienteX + ancho*escala;
+                    posSiguienteX = posSiguienteX + ancho * escala;
                 }
             }
         } catch (Exception ex) {

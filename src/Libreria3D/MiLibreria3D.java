@@ -60,7 +60,6 @@ public class MiLibreria3D {
         adelante, atras, izquierda, derecha, adDer, adIzq, atDer, atIzq
     };
 
-    
     /**
      * *******************
      * Metodos de Pedro ******************
@@ -77,14 +76,18 @@ public class MiLibreria3D {
         /* Transformacion a realizar sobre la esfera*/
         Transform3D rotacion = new Transform3D();
         //Datos de rotaci�n en X,Y,Z //Math.PI/4.0d); 
-        if (tipoRot.equals(tipoTrans.enX)) {
-            rotacion.rotX(Math.toRadians(grados));
-        }
-        if (tipoRot.equals(tipoTrans.enY)) {
-            rotacion.rotY(Math.toRadians(grados));
-        }
-        if (tipoRot.equals(tipoTrans.enZ)) {
-            rotacion.rotZ(Math.toRadians(grados));
+        rotacion.rotX(Math.toRadians(0));
+        try {
+            if (tipoRot.equals(tipoTrans.enX)) {
+                rotacion.rotX(Math.toRadians(grados));
+            }
+            if (tipoRot.equals(tipoTrans.enY)) {
+                rotacion.rotY(Math.toRadians(grados));
+            }
+            if (tipoRot.equals(tipoTrans.enZ)) {
+                rotacion.rotZ(Math.toRadians(grados));
+            }
+        } catch (NullPointerException e) {
         }
         // Se asocia al objeto la transformacion
         TransformGroup objetoRotado = new TransformGroup(rotacion);
