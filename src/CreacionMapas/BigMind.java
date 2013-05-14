@@ -85,7 +85,7 @@ public class BigMind extends JFrame {
         String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_cielo.jpg";
         String rutaSonido = "file://localhost/" + System.getProperty("user.dir") + "/" + "src/resources/sonido/magic_bells.wav";
         String rutaSuelo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_hielo.jpg";
-        MiLibreria3D.setBackground(rootBG, rutaFondo, this, 1);
+//        MiLibreria3D.setBackground(rootBG, rutaFondo, this, 1);
 //        MiLibreria3D.addSound(universo, rootBG, rutaSonido);
         try {
             rootBG.addChild(MiLibreria3D.crear(new Vector3f(0.0f, -1.0f, 0.0f),
@@ -259,7 +259,8 @@ public class BigMind extends JFrame {
 
                         // Lo introducimos dentro del arbol y lo trasladamos al lugar correcto
                         mundoBG.addChild(MiLibreria3D.trasladarEstatico(
-                                MiLibreria3D.rotarEstatico(MiLibreria3D.crear(new Vector3f(0.0f,0.0f,0.0f),
+                                MiLibreria3D.rotarEstatico(
+                                MiLibreria3D.crear(new Vector3f(0.0f,0.0f,0.0f),
                                 MiLibreria3D.tipoFigura.objetoOBJ, escala, null, null,
                                 null,
                                 System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/" + carpeta + "/" + archivo + ".obj"),
