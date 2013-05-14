@@ -5,13 +5,9 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.LineArray;
-import javax.media.j3d.Shape3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
-import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
-import javax.vecmath.Point3f;
 
 /**
  * @author Alex

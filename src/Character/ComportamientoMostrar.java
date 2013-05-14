@@ -1,6 +1,8 @@
 package Character;
 
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.j3d.Behavior;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.TransformGroup;
@@ -40,58 +42,63 @@ public class ComportamientoMostrar extends Behavior {
     }
 
     private void actualizarPersonaje() {
-        if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
-            Vector3f nuevaPosicion;
-            if (personaje.getCorriendo()) {
-                nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
-            } else {
-                nuevaPosicion = new Vector3f(0f, VEL_ANDAR, 0f);
-            }
-            if (personaje.getAdDer()) {
-                personaje.rotarAdelanteDerecha();
-            } else if (personaje.getAdIzq()) {
-                personaje.rotarAdelanteIzquierda();
-            } else if (personaje.getAtDer()) {
-                personaje.rotarAtrasDerecha();
-            } else if (personaje.getAtIzq()) {
-                personaje.rotarAtrasIzquierda();
-            } else {
-                if (personaje.getDerecha()) {
-                    personaje.rotarDerecha();
-                }
-                if (personaje.getIzquierda()) {
-                    personaje.rotarIzquierda();
-                }
-                if (personaje.getAdelante()) {
-                    personaje.rotarAdelante();
-                }
-                if (personaje.getAtras()) {
-                    personaje.rotarAtras();
-                }
-            }
-            System.out.println("Posicion actual: " + personaje.getPosicion());
-            System.out.println("Apuntando: " + personaje.getPuntoDireccion());
-            System.out.println();
-            if (personaje.getCorriendo()) {
-                (new Thread() {
-                    public void run() {
-                        personaje.correr();
-                    }
-                }).start();
-            } else {
-                (new Thread() {
-                    public void run() {
-                        personaje.andar();
-                    }
-                }).start();
-            }
-            personaje.desplazar(nuevaPosicion);
-        } else {
-            if (personaje.getAndando()) {
-                personaje.andar();
-            }
+        if (!personaje.getAtacando()) {
             if (personaje.getAtacar()) {
                 personaje.atacar();
+                (new Thread() {
+
+                    public void run() {
+                        try {
+                            Thread.sleep(1300);
+                            personaje.setAtacando(false);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(ComportamientoMostrar.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }).start();
+            } else if (personaje.getAdelante() || personaje.getAtras() || personaje.getIzquierda() || personaje.getDerecha()) {
+                Vector3f nuevaPosicion;
+                if (personaje.getCorriendo()) {
+                    nuevaPosicion = new Vector3f(0f, VEL_CORRER, 0f);
+                } else {
+                    nuevaPosicion = new Vector3f(0f, VEL_ANDAR, 0f);
+                }
+                if (personaje.getAdDer()) {
+                    personaje.rotarAdelanteDerecha();
+                } else if (personaje.getAdIzq()) {
+                    personaje.rotarAdelanteIzquierda();
+                } else if (personaje.getAtDer()) {
+                    personaje.rotarAtrasDerecha();
+                } else if (personaje.getAtIzq()) {
+                    personaje.rotarAtrasIzquierda();
+                } else {
+                    if (personaje.getDerecha()) {
+                        personaje.rotarDerecha();
+                    }
+                    if (personaje.getIzquierda()) {
+                        personaje.rotarIzquierda();
+                    }
+                    if (personaje.getAdelante()) {
+                        personaje.rotarAdelante();
+                    }
+                    if (personaje.getAtras()) {
+                        personaje.rotarAtras();
+                    }
+                }
+                System.out.println("Posicion actual: " + personaje.getPosicion());
+                System.out.println("Apuntando: " + personaje.getPuntoDireccion());
+                System.out.println();
+                (new Thread() {
+
+                    public void run() {
+                        personaje.moverse();
+                    }
+                }).start();
+                personaje.desplazar(nuevaPosicion);
+            } else {
+                if (personaje.getAndando()) {
+                    personaje.moverse();
+                }
             }
         }
     }
