@@ -26,7 +26,6 @@ public class Personaje {
     private final String RUTA = ("file://localhost/" + System.getProperty("user.dir") + "/src/resources/objetosMDL/");
     private final String MDL = "iron_golem.mdl";
     private final String ACCION_CORRER = "iron_golem:crun";
-    private final String ACCION_ANDAR = "iron_golem:cwalk";
     private final String ACCION_ATACAR = "iron_golem:ca1stab";
     private final float ESCALA = 0.3f;
     //Atributos
@@ -40,6 +39,7 @@ public class Personaje {
     private boolean atacar;
     private boolean corriendo;
     private boolean andando;
+    private boolean atacando;
 
     public Personaje() {
         try {
@@ -47,7 +47,7 @@ public class Personaje {
             posicionActual = new Point3f(0f, 0f, 0f);
             direccion = Direccion.adelante;
             actualizarDireccion();
-            adelante = atras = izquierda = derecha = adder = adizq = atder = atizq = andando = corriendo = atacar = false;
+            adelante = atras = izquierda = derecha = adder = adizq = atder = atizq = andando = corriendo = atacar = atacando = false;
             //Inicialización del personaje
             NWNLoader nwn2 = new NWNLoader();
             nwn2.enableModelCache(true);
@@ -110,6 +110,10 @@ public class Personaje {
         corriendo = estado;
     }
 
+    public void setAtacando(boolean estado) {
+        atacando = estado;
+    }
+
     public void setAtacar(boolean estado) {
         atacar = estado;
     }
@@ -152,6 +156,10 @@ public class Personaje {
 
     public boolean getCorriendo() {
         return corriendo;
+    }
+
+    public boolean getAtacando() {
+        return atacando;
     }
 
     public boolean getAtacar() {
@@ -358,9 +366,9 @@ public class Personaje {
     }
 
     //Animaciones
-    public void andar() {
+    public void moverse() {
         if (!andando) {
-            animacion.playAnimation(ACCION_ANDAR, true);
+            animacion.playAnimation(ACCION_CORRER, true);
             andando = true;
         }
         if (andando && !adelante && !atras && !izquierda && !derecha && !adder && !adizq && !atder && !atizq) {
@@ -369,18 +377,8 @@ public class Personaje {
         }
     }
 
-    public void correr() {
-        if (!andando) {
-            animacion.playAnimation(ACCION_CORRER, true);
-            andando = true;
-        }
-        if (andando && !corriendo) {
-            animacion.playDefaultAnimation();
-            andando = false;
-        }
-    }
-
     public void atacar() {
+        atacando = true;
         animacion.playAnimation(ACCION_ATACAR, false);
     }
 
