@@ -1,5 +1,6 @@
 package Character;
 
+import CreacionMapas.BigMind;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,7 +8,6 @@ import javax.media.j3d.Behavior;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.WakeupOnElapsedFrames;
-import javax.swing.JFrame;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
 
@@ -20,12 +20,12 @@ public class ComportamientoMostrar extends Behavior {
     private final float VEL_ANDAR = 0.02f;
     private final float VEL_CORRER = 0.05f;
     //Atributos
-    Test mundo;
+    BigMind mundo;
     Personaje personaje;
     TransformGroup TG_personaje;
     WakeupOnElapsedFrames framewake = new WakeupOnElapsedFrames(0);
 
-    public ComportamientoMostrar(Test mundo) {
+    public ComportamientoMostrar(BigMind mundo) {
         this.mundo = mundo;
         personaje = mundo.personaje;
         TG_personaje = personaje.getTG();
@@ -39,7 +39,7 @@ public class ComportamientoMostrar extends Behavior {
 
     @Override
     public void processStimulus(Enumeration criteria) {
-        actualizarCamara();
+//        actualizarCamara();
         actualizarPersonaje();
 
         wakeupOn(framewake);

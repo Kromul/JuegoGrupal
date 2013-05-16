@@ -23,9 +23,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 /**
@@ -36,9 +39,14 @@ public class BigMind extends JFrame {
 
     SimpleUniverse universo;
     // Personaje
+    //Constantes
+    public final Point3d POS_CAMARA = new Point3d(0d, 5d, 10.3d);
+    //Atributos
+    public Canvas3D zonaDibujo;
     public Personaje personaje = new Personaje();
     public ControlPersonaje control = new ControlPersonaje(personaje);
-    //public ComportamientoMostrar mostrar = new ComportamientoMostrar(this);
+    public ComportamientoMostrar mostrar = new ComportamientoMostrar(this);
+    TransformGroup TGcamara = new TransformGroup();
     // Constantes
     final String NO_EXISTE = "archivo no existente";
     final Float ESPACIO_Z = 3.0f; // espacio en el eje z entre los objetos
@@ -49,20 +57,20 @@ public class BigMind extends JFrame {
         Container GranPanel = getContentPane();
         JPanel Controles = new JPanel(new GridLayout(1, 4));
         Canvas3D dibujo3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-        GranPanel.add(dibujo3D, BorderLayout.NORTH);
-        GranPanel.add(Controles, BorderLayout.SOUTH);
+        GranPanel.add(dibujo3D, BorderLayout.CENTER);
         dibujo3D.setPreferredSize(new Dimension(780, 580));
         universo = new SimpleUniverse(dibujo3D);
         BranchGroup escena = crearEscena();
         escena.compile();
         //This moves the ViewPlatform back a bit so objects can be viewed.
         universo.getViewingPlatform().setNominalViewingTransform();
+        TGcamara = universo.getViewingPlatform().getViewPlatformTransform();
         universo.addBranchGraph(escena);
         pack();
         setVisible(true);
 
         MiLibreria3D.addMovimientoCamara(universo, dibujo3D);
-        MiLibreria3D.colocarCamara(universo, new Point3d(-20, 10, -20), new Point3d(5, 0, 5));
+        MiLibreria3D.colocarCamara(universo, new Point3d(0, 2, 5), new Point3d(0, 0, 0));
     }
 
     BranchGroup crearEscena() {
@@ -73,13 +81,12 @@ public class BigMind extends JFrame {
         rootBG.addChild(crearMundo());
 
         //Añadimos el personaje
-        rootBG.addChild(MiLibreria3D.trasladarEstatico(personaje.getTG(), new Vector3f(-2, 0, -2)));
-
+        rootBG.addChild(personaje.getTG());
         //Añadimos el control del personaje
         rootBG.addChild(control);
 
         //Añadimos el mostrar
-        //rootBG.addChild(mostrar);
+        rootBG.addChild(mostrar);
 
         // Elementos por defecto de la escena
         String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_cielo.jpg";
@@ -99,6 +106,17 @@ public class BigMind extends JFrame {
         rootBG.addChild(MiLibreria3D.getDefaultIlumination());
 
         return rootBG;
+    }
+
+    public void colocarCamaraDinamico(Point3d posiciónCamara, Point3d objetivoCamara) {
+        Point3d posicionCamara = new Point3d(posiciónCamara.x + 0.001, posiciónCamara.y + 0.001d, posiciónCamara.z + 0.001);
+        Transform3D datosConfiguracionCamara = new Transform3D();
+        datosConfiguracionCamara.lookAt(posicionCamara, objetivoCamara, new Vector3d(0.001, 1.001, 0.001));
+        try {
+            datosConfiguracionCamara.invert();
+            TGcamara.setTransform(datosConfiguracionCamara);
+        } catch (Exception e) {
+        }
     }
 
     public String leerEscena(String escena, String archivo) {
@@ -124,6 +142,7 @@ public class BigMind extends JFrame {
         return escena;
     }
 
+    
     private BranchGroup crearMundo() {
         BranchGroup mundoBG = new BranchGroup();
         try {
@@ -161,18 +180,21 @@ public class BigMind extends JFrame {
             // Creamos el escenario
             while (str.hasMoreTokens()) {
                 String elemento = str.nextToken();
+                System.out.println(elemento + "(" + posSiguienteX + ", " + posSiguienteY + ", " + posSiguienteZ + ")");
+
+                if (elemento.contains("espacio")) {
+                    if (elemento.contains("espacioX")) {
+                        posSiguienteX = posSiguienteX + Float.parseFloat(elemento.substring(elemento.indexOf("espacioX") + 8, elemento.indexOf("/", elemento.indexOf("espacioX") + 8)));
+                    }
+                    // No esta implementado crear espacios en Y, si se desea situar un objeto
+                    if (elemento.contains("espacioZ")) {
+                        posSiguienteZ = posSiguienteZ + Float.parseFloat(elemento.substring(elemento.indexOf("espacioZ") + 8, elemento.indexOf("/", elemento.indexOf("espacioZ") + 8)));
+                    }
+                }
+                
                 if (elemento.contains("final")) {
                     posSiguienteX = posInicialX;
-                    posSiguienteZ = posSiguienteZ + ESPACIO_Z;
                     esObjetoInicial = true;
-                } else if (elemento.contains("espacio")) {
-                    posSiguienteX = posSiguienteX + ancho * 2;
-                } else if (elemento.contains("muro")) {
-                    posSiguienteX = posSiguienteX + ancho * 2;
-                    mundoBG.addChild(MiLibreria3D.crear(new Vector3f(posSiguienteX, posSiguienteY, posSiguienteZ),
-                            tipoFigura, ancho, alto, largo,
-                            MiLibreria3D.getTexture(urlTexturaMuro, this),
-                            ""));
                 } else if (elemento.contains("obj")) {
                     // Una vez que sabemos que es un OBJ vemos en que carpeta esta
                     // y que archivo debemos de coger
@@ -230,7 +252,12 @@ public class BigMind extends JFrame {
                     }
 
                     // Conseguimos la escala
-                    escala = (float) elemento.charAt(elemento.lastIndexOf("e") + 1) - 48;
+                    if(elemento.contains("esc")){
+                        escala = Float.parseFloat(elemento.substring(elemento.indexOf("esc") + 3, elemento.indexOf("/", elemento.indexOf("esc") + 3)));
+                    }else{
+                        escala = 1;
+                    }
+//                    escala = (float) elemento.charAt(elemento.lastIndexOf("e") + 1) - 48;
 
                     // Conseguimos la rotacion
                     if (elemento.contains("rotX")) {
@@ -292,12 +319,7 @@ public class BigMind extends JFrame {
                         // cambiando la X y la Y ya que son las unicas variables
                         // que se ven afectadas al rellenar nuestro mapa de izquierda
                         // a derecha
-                        if (esObjetoInicial) {
-                            posAnteriorX = ancho * escala;
-                            esObjetoInicial = false;
-                        } else {
-                            posAnteriorX = posSiguienteX + (ancho * escala);
-                        }
+                        posAnteriorX = posSiguienteX + (ancho * escala);
                         posAnteriorY = alto * escala;
 
                         Vector3f posicion;
@@ -316,7 +338,7 @@ public class BigMind extends JFrame {
                                 MiLibreria3D.rotarEstatico(
                                 MiLibreria3D.crear(new Vector3f(0.0f, 0.0f, 0.0f),
                                 MiLibreria3D.tipoFigura.objetoOBJ, escala, null, null,
-                                null,
+                                MiLibreria3D.getTexture(System.getProperty("user.dir") + "/" + "src/resources/texturas/" + "textura_barro_seco" + ".jpg" , this),
                                 System.getProperty("user.dir") + "/" + "src/resources/objetosOBJ/" + carpeta + "/" + archivo + ".obj"),
                                 grados[0], transformacion[0]),
                                 grados[1], transformacion[1]),
@@ -327,8 +349,6 @@ public class BigMind extends JFrame {
                         posSiguienteX = posAnteriorX + ancho * escala;
                         transformacion[0] = transformacion[1] = transformacion[2] = null;
                     }
-                } else {
-                    posSiguienteX = posSiguienteX + ancho * escala;
                 }
             }
         } catch (Exception ex) {
