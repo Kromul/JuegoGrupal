@@ -19,12 +19,14 @@ public class ComportamientoMostrar extends Behavior {
     private final float VEL_ANDAR = 0.02f;
     private final float VEL_CORRER = 0.05f;
     //Atributos
+    Test mundo;
     Personaje personaje;
     TransformGroup TG_personaje;
     WakeupOnElapsedFrames framewake = new WakeupOnElapsedFrames(0);
 
-    public ComportamientoMostrar(Personaje personaje) {
-        this.personaje = personaje;
+    public ComportamientoMostrar(Test mundo) {
+        this.mundo = mundo;
+        personaje = mundo.personaje;
         TG_personaje = personaje.getTG();
         setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0));
     }
@@ -36,6 +38,7 @@ public class ComportamientoMostrar extends Behavior {
 
     @Override
     public void processStimulus(Enumeration criteria) {
+        actualizarCamara();
         actualizarPersonaje();
 
         wakeupOn(framewake);
@@ -46,7 +49,6 @@ public class ComportamientoMostrar extends Behavior {
             if (personaje.getAtacar()) {
                 personaje.atacar();
                 (new Thread() {
-
                     public void run() {
                         try {
                             Thread.sleep(1300);
@@ -85,11 +87,8 @@ public class ComportamientoMostrar extends Behavior {
                         personaje.rotarAtras();
                     }
                 }
-                System.out.println("Posicion actual: " + personaje.getPosicion());
-                System.out.println("Apuntando: " + personaje.getPuntoDireccion());
-                System.out.println();
+                System.out.println("");
                 (new Thread() {
-
                     public void run() {
                         personaje.moverse();
                     }
@@ -101,5 +100,11 @@ public class ComportamientoMostrar extends Behavior {
                 }
             }
         }
+    }
+
+    private void actualizarCamara() {
+        Point3d objetivo = new Point3d(personaje.getPosicion().getX(), personaje.getPosicion().getY(), personaje.getPosicion().getZ());
+        Point3d posicion = new Point3d(personaje.getPosicion().getX(), personaje.getPosicion().getY() + 5, personaje.getPosicion().getZ() + 10.3);
+        mundo.colocarCamaraDinamico(posicion, objetivo);
     }
 }
