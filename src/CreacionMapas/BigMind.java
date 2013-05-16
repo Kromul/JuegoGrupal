@@ -38,7 +38,7 @@ public class BigMind extends JFrame {
     // Personaje
     public Personaje personaje = new Personaje();
     public ControlPersonaje control = new ControlPersonaje(personaje);
-    public ComportamientoMostrar mostrar = new ComportamientoMostrar(personaje);
+    //public ComportamientoMostrar mostrar = new ComportamientoMostrar(this);
     // Constantes
     final String NO_EXISTE = "archivo no existente";
     final Float ESPACIO_Z = 3.0f; // espacio en el eje z entre los objetos
@@ -79,7 +79,7 @@ public class BigMind extends JFrame {
         rootBG.addChild(control);
 
         //Añadimos el mostrar
-        rootBG.addChild(mostrar);
+        //rootBG.addChild(mostrar);
 
         // Elementos por defecto de la escena
         String rutaFondo = System.getProperty("user.dir") + "/" + "src/resources/texturas/textura_cielo.jpg";

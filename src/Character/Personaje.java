@@ -44,7 +44,7 @@ public class Personaje {
     public Personaje() {
         try {
             //Inicialización de los atributos
-            posicionActual = new Point3f(0f, 0f, 0f);
+            posicionActual = new Point3f(0, 0, 0);
             direccion = Direccion.adelante;
             actualizarDireccion();
             adelante = atras = izquierda = derecha = adder = adizq = atder = atizq = andando = corriendo = atacar = atacando = false;
@@ -58,8 +58,8 @@ public class Personaje {
             tgPersonaje = new TransformGroup();
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
             tgPersonaje.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            rotar(tipoTrans.enX, -90);
-            escalar(ESCALA);
+            this.rotar(tipoTrans.enX, -90);
+            this.escalar(ESCALA);
             tgPersonaje.addChild(bgPersonaje);
 
         } catch (MalformedURLException ex) {

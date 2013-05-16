@@ -7,6 +7,7 @@ import javax.media.j3d.Behavior;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.WakeupOnElapsedFrames;
+import javax.swing.JFrame;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
 
@@ -87,6 +88,8 @@ public class ComportamientoMostrar extends Behavior {
                         personaje.rotarAtras();
                     }
                 }
+                System.out.println("Posicion: " + personaje.getPosicion());
+                System.out.println("Apuntando a: " + personaje.getPuntoDireccion());
                 System.out.println("");
                 (new Thread() {
                     public void run() {

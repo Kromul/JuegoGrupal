@@ -9,6 +9,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
 import javax.vecmath.Point3d;
+import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 
 /**
@@ -38,7 +39,7 @@ public final class Test extends JFrame {
         universo.addBranchGraph(escena);
 
         //Añadimos movimiento con ratón 
-        // MiLibreria3D.addMovimientoCamara(universo, zonaDibujo);
+        MiLibreria3D.addMovimientoCamara(universo, zonaDibujo);
     }
 
     private BranchGroup crearEscena() {
