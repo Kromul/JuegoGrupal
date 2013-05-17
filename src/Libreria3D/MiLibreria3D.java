@@ -152,22 +152,29 @@ public class MiLibreria3D {
             tipoFigura tipoFigura,
             Float ancho, Float alto, Float largo,
             Appearance apariencia,
-            String urlObjeto) throws Exception {
+            String urlObjeto, Float escala) throws Exception {
         // Creamos el BranchGroup que vamos a devolver
         BranchGroup objetoBG = new BranchGroup();
+        BranchGroup auxBG = new BranchGroup();
 
         if (tipoFigura.equals(tipoFigura.rectangulo)) {
             Box cubo = new Box(ancho, alto, largo, apariencia);
-            objetoBG.addChild(MiLibreria3D.trasladarEstatico(cubo, posInicial));
+            cubo.setAppearance(apariencia);
+            auxBG.addChild(cubo);
+            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(auxBG, escala), posInicial));
         } else if (tipoFigura.equals(tipoFigura.esfera)) {
             Sphere esfera = new Sphere(ancho, apariencia);
-            objetoBG.addChild(MiLibreria3D.trasladarEstatico(esfera, posInicial));
+            esfera.setAppearance(apariencia);
+            auxBG.addChild(esfera);
+            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(auxBG, escala), posInicial));
         } else if (tipoFigura.equals(tipoFigura.cilindro)) {
             Cylinder cilindro = new Cylinder(ancho, alto, apariencia);
-            objetoBG.addChild(MiLibreria3D.trasladarEstatico(cilindro, posInicial));
+            cilindro.setAppearance(apariencia);
+            auxBG.addChild(cilindro);
+            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(auxBG, escala), posInicial));
         } else if (tipoFigura.equals(tipoFigura.objetoOBJ)) {
             Scene scene = getOBJ(urlObjeto);
-            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(scene.getSceneGroup(), ancho), posInicial));
+            objetoBG.addChild(MiLibreria3D.trasladarEstatico(MiLibreria3D.escalarEstatico(scene.getSceneGroup(), escala), posInicial));
         } else {
             throw new Exception("Error al crear la figura");
         }
