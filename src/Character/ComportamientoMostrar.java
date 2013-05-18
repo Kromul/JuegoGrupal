@@ -1,6 +1,7 @@
 package Character;
 
 import CreacionMapas.BigMind;
+import Libreria3D.MiLibreria3D;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,7 @@ public class ComportamientoMostrar extends Behavior {
 
     @Override
     public void processStimulus(Enumeration criteria) {
-//        actualizarCamara();
+        actualizarCamara();
         actualizarPersonaje();
 
         wakeupOn(framewake);
@@ -88,9 +89,9 @@ public class ComportamientoMostrar extends Behavior {
                         personaje.rotarAtras();
                     }
                 }
-                System.out.println("Posicion: " + personaje.getPosicion());
-                System.out.println("Apuntando a: " + personaje.getPuntoDireccion());
-                System.out.println("");
+                //System.out.println("Posicion: " + personaje.getPosicion());
+                //System.out.println("Apuntando a: " + personaje.getPuntoDireccion());
+                //System.out.println("");
                 (new Thread() {
                     public void run() {
                         personaje.moverse();

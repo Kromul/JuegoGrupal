@@ -411,6 +411,10 @@ public class MiLibreria3D {
      * ****************
      * Metodos de Alex ****************
      */
+    /**
+     * Devuele un Transform3D con la rotación pasada como parámetro (eje y
+     * ángulo).
+     */
     public static Transform3D rotarDinamico(tipoTrans tipoRot, float angulo) {
         angulo = (float) Math.toRadians(angulo);
         Transform3D rotarObj = new Transform3D();
@@ -424,15 +428,35 @@ public class MiLibreria3D {
         return rotarObj;
     }
 
+    /**
+     * Devuele un Transform3D con la escala pasada como parámetro.
+     */
     public static Transform3D escalarDinamico(float escala) {
         Transform3D escalarObj = new Transform3D();
         escalarObj.setScale(escala);
         return escalarObj;
     }
 
+    /**
+     * Devuele un Transform3D con el desplazamiento pasado como parámetro.
+     */
     public static Transform3D trasladarDinamico(Vector3f distancia) {
         Transform3D trasladarObj = new Transform3D();
         trasladarObj.setTranslation(distancia);
         return trasladarObj;
+    }
+
+    /**
+     * Devuelve la longitud de los catetos de un triángulo isosceles a partir de
+     * la hipotenusa pasada como parámetro.
+     */
+    public static float pitagorasIsosceles(float hipotenusa) {
+        float resultado;
+
+        resultado = (float) Math.pow(hipotenusa, 2);
+        resultado /= 2;
+        resultado = (float) Math.sqrt(resultado);
+
+        return resultado;
     }
 }

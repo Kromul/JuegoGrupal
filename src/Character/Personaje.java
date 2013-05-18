@@ -341,18 +341,19 @@ public class Personaje {
         tgPersonaje.getTransform(actual);
         actual.mul(nueva);
         tgPersonaje.setTransform(actual);
+        float diagonal = distancia.getY() * ESCALA;
         if (direccion.equals(Direccion.adDer)) {
-            posicionActual.setX(posicionActual.getX() + distancia.getY() * ESCALA);
-            posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
+            posicionActual.setX(posicionActual.getX() + MiLibreria3D.pitagorasIsosceles(diagonal));
+            posicionActual.setZ(posicionActual.getZ() - MiLibreria3D.pitagorasIsosceles(diagonal));
         } else if (direccion.equals(Direccion.adIzq)) {
-            posicionActual.setX(posicionActual.getX() - distancia.getY() * ESCALA);
-            posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
+            posicionActual.setX(posicionActual.getX() - MiLibreria3D.pitagorasIsosceles(diagonal));
+            posicionActual.setZ(posicionActual.getZ() - MiLibreria3D.pitagorasIsosceles(diagonal));
         } else if (direccion.equals(Direccion.atDer)) {
-            posicionActual.setX(posicionActual.getX() + distancia.getY() * ESCALA);
-            posicionActual.setZ(posicionActual.getZ() + distancia.getY() * ESCALA);
+            posicionActual.setX(posicionActual.getX() + MiLibreria3D.pitagorasIsosceles(diagonal));
+            posicionActual.setZ(posicionActual.getZ() + MiLibreria3D.pitagorasIsosceles(diagonal));
         } else if (direccion.equals(Direccion.atIzq)) {
-            posicionActual.setX(posicionActual.getX() - distancia.getY() * ESCALA);
-            posicionActual.setZ(posicionActual.getZ() + distancia.getY() * ESCALA);
+            posicionActual.setX(posicionActual.getX() - MiLibreria3D.pitagorasIsosceles(diagonal));
+            posicionActual.setZ(posicionActual.getZ() + MiLibreria3D.pitagorasIsosceles(diagonal));
         } else if (direccion.equals(Direccion.adelante)) {
             posicionActual.setZ(posicionActual.getZ() - distancia.getY() * ESCALA);
         } else if (direccion.equals(Direccion.atras)) {
