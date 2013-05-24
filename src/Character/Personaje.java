@@ -22,6 +22,10 @@ import net.sf.nwn.loader.NWNLoader;
  */
 public class Personaje {
 
+    
+    
+    
+    
     //Constantes
     private final String RUTA = ("file://localhost/" + System.getProperty("user.dir") + "/src/resources/objetosMDL/");
     private final String MDL = "iron_golem.mdl";
